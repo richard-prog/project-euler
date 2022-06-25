@@ -25,8 +25,9 @@ pub fn generate_primes() {
     }
 
     let json_string = serde_json::to_string(&prime_vec).unwrap();
-    //println!("{}", json_string);
     fs::write("primes.txt", json_string).unwrap();
+    println!("Wrote primes, boss!");
+
 }
 
 pub fn get_primes() -> Vec<u32> {

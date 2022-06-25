@@ -1,6 +1,6 @@
-const SUM: u32 = 1000;
+const SUM: u64 = 1000;
 
-pub fn p09() -> u32 {
+pub fn p09() -> u64 {
     let mut a = SUM / 3;
     while a > 0 {
         let mut b = 1;

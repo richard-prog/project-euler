@@ -1,5 +1,5 @@
-pub fn p25() -> u32 {
-    smallest_fib_with_length(1000)
+pub fn p25() -> u64 {
+    smallest_fib_with_length(1000) as u64
 }
 
 fn smallest_fib_with_length(len: u32) -> u32 {
