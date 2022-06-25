@@ -34,3 +34,22 @@ pub fn get_primes() -> Vec<u32> {
     let prime_vec: Vec<u32> = serde_json::from_str(&json_string).unwrap();
     prime_vec
 }
+
+pub fn factor(mut num: u64, primes: &Vec<u32>) -> Vec<(u32, u32)> {
+    let mut ret = Vec::new();
+    for &p in primes {
+	// println!("{p}");
+	if num % p as u64 == 0 {
+	    let mut exp = 0;
+	    while num % p as u64 == 0 {
+		exp += 1;
+		num /= p as u64;
+	    }
+	    ret.push((p, exp));
+	}
+	if num == 1 {
+	    break;
+	}
+    }
+    ret
+}
