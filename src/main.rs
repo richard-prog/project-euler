@@ -1,3 +1,3 @@
 fn main() {
-    project_euler::run_problems(&[4]);
+    project_euler::run_problems(&[20]);
 }
