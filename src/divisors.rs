@@ -19,8 +19,11 @@ pub fn get_proper_divisors(num: u64, primes: &Vec<u32>) -> Vec<u32> {
     divisors
 }
 
-pub fn sum_proper_divisors(num: u64) -> u32 {
-    get_proper_divisors(num, &primes::get_primes()).iter().sum()
+pub fn sum_proper_divisors(num: u64, primes: &Vec<u32>) -> u32 {
+    if num == 0 {
+	return 0;
+    }
+    get_proper_divisors(num, &primes).iter().sum()
 }
 
 fn extend_divisors(divisors: &mut Vec<u32>, base: u32, exponent: u32) {
@@ -58,11 +61,14 @@ mod tests {
 		   vec![1, 2, 4, 5, 10, 11, 20, 22, 44, 55, 110]);
 	assert_eq!(get_proper_divisors(284, &primes::get_primes()),
 		   vec![1, 2, 4, 71, 142]);
+	assert_eq!(get_proper_divisors(1, &primes::get_primes()), Vec::<u32>::new());
     }
 
     #[test]
     fn test_sum_proper_divisors() {
-	assert_eq!(sum_proper_divisors(220), 284);
-	assert_eq!(sum_proper_divisors(284), 220);
+	let primes = primes::get_primes();
+	assert_eq!(sum_proper_divisors(220, &primes), 284);
+	assert_eq!(sum_proper_divisors(284, &primes), 220);
+	assert_eq!(sum_proper_divisors(1, &primes), 0);
     }
 }

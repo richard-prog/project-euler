@@ -6,40 +6,37 @@ pub mod primes;
 pub mod read_from_file;
 pub mod symbolic_math;
 
-pub fn run_problems(problem_numbers: &[u8]) {
-    // let problems = Vec::new();
-    // problems.push(problems::p01 as fn() -> u64);
-    // problems.push(problems::p02 as fn() -> u64);
-    let problems = vec![
-    	problems::p01 as fn() -> u64,
-    	problems::p02 as fn() -> u64,
-    	problems::p03 as fn() -> u64,
-    	problems::p04 as fn() -> u64,
-    	problems::p05 as fn() -> u64,
-    	problems::p06 as fn() -> u64,
-    	problems::p07 as fn() -> u64,
-    	problems::p08 as fn() -> u64,
-    	problems::p09 as fn() -> u64,
-    	problems::p10 as fn() -> u64,
-    	problems::p11 as fn() -> u64,
-    	problems::p12 as fn() -> u64,
-    	problems::p13 as fn() -> u64,
-    	problems::p14 as fn() -> u64,
-    	problems::p15 as fn() -> u64,
-    	problems::p16 as fn() -> u64,
-    	problems::p17 as fn() -> u64,
-    	problems::p18 as fn() -> u64,
-	problems::p19 as fn() -> u64,
-	problems::p20 as fn() -> u64,
-	problems::p25 as fn() -> u64,
-    ];
-    if problem_numbers.len() == 0 {
-	for (num, problem) in problems.iter().enumerate() {
-	    println!("{}: {}", num, problem());
-	}
-    } else {
-	for num in problem_numbers {
-	    println!("{}: {}", num, problems[*num as usize - 1]());
-	}
+pub fn run_problems(problem_numbers: &[u16]) {
+    let primes = primes::get_primes();
+    for &num in problem_numbers {
+	println!("{}: {}", num, run_problem(num, &primes));
+    }
+}
+
+fn run_problem(problem_number: u16, primes: &Vec<u32>) -> u64 {
+    match problem_number {
+	1 => problems::p01(),
+	2 => problems::p02(),
+	3 => problems::p03(),
+	4 => problems::p04(),
+	5 => problems::p05(),
+	6 => problems::p06(),
+	7 => problems::p07(),
+	8 => problems::p08(),
+	9 => problems::p09(),
+	10 => problems::p10(),
+	11 => problems::p11(),
+	12 => problems::p12(),
+	13 => problems::p13(),
+	14 => problems::p14(),
+	15 => problems::p15(),
+	16 => problems::p16(),
+	17 => problems::p17(),
+	18 => problems::p18(),
+	19 => problems::p19(),
+	20 => problems::p20(),
+	21 => problems::p21(&primes),
+	25 => problems::p25(),
+	_ => 42
     }
 }
