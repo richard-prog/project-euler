@@ -37,6 +37,8 @@ fn run_problem(problem_number: u16, primes: &Vec<u32>) -> u64 {
 	20 => problems::p20(),
 	21 => problems::p21(&primes),
 	22 => problems::p22(),
+	23 => problems::p23(&primes),
+	24 => problems::p24(),
 	25 => problems::p25(),
 	_ => 42
     }
