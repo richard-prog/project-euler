@@ -1,7 +1,5 @@
-//use crate::primes;
-
-pub fn p07() -> u64 {
-    crate::primes::get_primes()[10_000] as u64
+pub fn p07(primes: &Vec<u32>) -> u64 {
+    primes[10_000] as u64
 }
 
 #[cfg(test)]
@@ -10,6 +8,7 @@ mod tests {
 
     #[test]
     fn check_solution() {
-        assert_eq!(p07(), 104743);
+	use crate::primes;
+        assert_eq!(p07(&primes::get_primes()), 104743);
     }
 }

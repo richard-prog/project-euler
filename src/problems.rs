@@ -19,6 +19,7 @@ pub mod p18;
 pub mod p19;
 pub mod p20;
 pub mod p21;
+pub mod p22;
 
 pub mod p25;
 
@@ -43,5 +44,6 @@ pub use p18::p18;
 pub use p19::p19;
 pub use p20::p20;
 pub use p21::p21;
+pub use p22::p22;
 
 pub use p25::p25;

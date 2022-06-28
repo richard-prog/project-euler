@@ -1,14 +1,14 @@
 //use crate::primes;
-pub fn p05() -> u64 {
-    get_smallest_divisible(20)
+pub fn p05(primes: &Vec<u32>) -> u64 {
+    get_smallest_divisible(20, &primes)
 }
 
-fn get_smallest_divisible(n: u32) -> u64 {
-    let prime_vec = crate::primes::get_primes();
+fn get_smallest_divisible(n: u32, primes: &Vec<u32>) -> u64 {
+    // let prime_vec = crate::primes::get_primes();
     let mut count_vec: Vec<(u32, u32)> = Vec::new();
     let mut i = 0;
-    while prime_vec[i] < n {
-        count_vec.push((prime_vec[i], 1));
+    while primes[i] < n {
+        count_vec.push((primes[i], 1));
         i += 1
     }
     for i in 0..count_vec.len() {
@@ -34,11 +34,13 @@ mod tests {
     use super::*;
     #[test]
     fn check_solution() {
-        assert_eq!(p05(), 232792560);
+	use crate::primes;
+        assert_eq!(p05(&primes::get_primes()), 232792560);
     }
 
     #[test]
     fn test_get_smallest_divisible() {
-        assert_eq!(get_smallest_divisible(10), 2520);
+	use crate::primes;
+        assert_eq!(get_smallest_divisible(10, &primes::get_primes()), 2520);
     }
 }
