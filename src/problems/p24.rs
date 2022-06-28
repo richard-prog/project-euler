@@ -1,5 +1,5 @@
 pub fn p24() -> u64 {
-    let v = vec![
+    let digits = vec![
 	String::from("0"),
 	String::from("1"),
 	String::from("2"),
@@ -11,24 +11,23 @@ pub fn p24() -> u64 {
 	String::from("8"),
 	String::from("9"),
     ];
-    let result_string = &permutations(&v)[999_999];
-    result_string.parse().unwrap()
+    permutation_n(&digits, 1_000_000)
 }
 
-fn permutations(v: &Vec<String>) -> Vec<String> {
-    if v.len() < 2 {
-	return v.clone();
+fn permutation_n(digits: &Vec<String>, n: usize) -> u64 {
+    let mut digits = digits.clone();
+    let mut factorial: usize = (1..digits.len()).product();
+    let mut target = n - 1;
+    let mut result_string = String::with_capacity(digits.len());
+    while target > 0 {
+	result_string.push_str(&digits.remove(target / factorial));
+	target %= factorial;
+	factorial /= digits.len();
     }
-    let mut result = Vec::new();
-    for (i, s) in v.iter().enumerate() {
-	let mut clone: Vec<String> = v.clone();
-	clone.remove(i);
-	let subpermutations = permutations(&clone);
-	for permutation in subpermutations {
-	    result.push(format!("{s}{permutation}"));
-	}
+    while digits.len() > 0 {
+	result_string.push_str(&digits.remove(0));
     }
-    result
+    result_string.parse().unwrap()
 }
 
 #[cfg(test)]
@@ -41,11 +40,13 @@ mod tests {
     }
 
     #[test]
-    fn test_permutations() {
+    fn test_permutation_n() {
 	let v = vec![String::from("0"),
 		     String::from("1"),
 		     String::from("2")];
-	assert_eq!(permutations(&v),
-		   vec!["012", "021", "102", "120", "201", "210"]);
+	let permutation_vec = vec!["012", "021", "102", "120", "201", "210"];
+	for i in 0..permutation_vec.len() {
+	    assert_eq!(permutation_n(&v, i+1), permutation_vec[i].parse::<u64>().unwrap());
+	}
     }
 }
