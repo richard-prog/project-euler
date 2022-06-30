@@ -41,6 +41,7 @@ fn is_abundant(num: u64, primes: &Vec<u32>) -> bool {
 mod tests {
     use super::*;
     use crate::primes;
+    #[ignore]
     #[test]
     fn check_solution() {
 	let primes = primes::get_primes();
