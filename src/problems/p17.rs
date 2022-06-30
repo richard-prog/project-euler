@@ -53,7 +53,7 @@ fn num_to_words(num: u32) -> String {
 fn count_letters(word: &str) -> u32 {
     let mut count = 0;
     for b in word.bytes() {
-	if b'a' <= b && b <= b'z' {
+	if (b'a'..=b'z').contains(&b) {
 	    count += 1;
 	}
     }

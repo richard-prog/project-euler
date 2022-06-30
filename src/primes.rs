@@ -3,7 +3,7 @@ use std::fs;
 
 const MAX: usize = 2_000_000;
 
-pub fn generate_primes() {
+pub fn generate_primes() -> Vec<u32> {
     let mut sieve = [true; MAX + 1];
     let max_factor = ((MAX as f64).sqrt()) as usize;
     for i in 2..=max_factor {
@@ -18,16 +18,14 @@ pub fn generate_primes() {
         }
     }
     let mut prime_vec: Vec<u32> = Vec::with_capacity(MAX / (MAX as f64).log(3.0) as usize);
-    for i in 2..=MAX {
-        if sieve[i] {
+    for (i, p) in sieve.iter().enumerate().take(MAX+1).skip(2) {
+        if *p {
             prime_vec.push(i as u32);
         }
     }
-
-    let json_string = serde_json::to_string(&prime_vec).unwrap();
-    fs::write("primes.txt", json_string).unwrap();
-    println!("Wrote primes, boss!");
-
+    // let json_string = serde_json::to_string(&prime_vec).unwrap();
+    // fs::write("primes.txt", json_string).unwrap();
+    prime_vec
 }
 
 pub fn get_primes() -> Vec<u32> {
@@ -53,4 +51,14 @@ pub fn factor(mut num: u64, primes: &Vec<u32>) -> Vec<(u32, u32)> {
 	}
     }
     ret
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_generate_primes() {
+	assert_eq!(generate_primes(), get_primes());
+    }
 }

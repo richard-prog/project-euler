@@ -3,12 +3,11 @@ const UPPER_LIMIT: u64 = 28123;
 use crate::divisors;
 
 pub fn p23(primes: &Vec<u32>) -> u64 {
-    let abundants = get_small_abundants(UPPER_LIMIT, &primes);
+    let abundants = get_small_abundants(UPPER_LIMIT, primes);
     let mut nums = [true; UPPER_LIMIT as usize + 1];
 
     for (i, m) in abundants.iter().enumerate() {
-    	for j in 0..=i {
-    	    let n = abundants[j];
+    	for n in abundants.iter().take(i+1) {
     	    let index = m + n;
     	    if index < UPPER_LIMIT + 1 {
     		nums[index as usize] = false;
@@ -29,12 +28,12 @@ pub fn p23(primes: &Vec<u32>) -> u64 {
 
 fn get_small_abundants(lim: u64, primes: &Vec<u32>) -> Vec<u64> {
     (1..=lim)
-	.filter(|n| -> bool {is_abundant(*n, &primes)})
+	.filter(|n| -> bool {is_abundant(*n, primes)})
 	.collect::<Vec<u64>>()
 }
 
 fn is_abundant(num: u64, primes: &Vec<u32>) -> bool {
-    divisors::sum_proper_divisors(num, &primes) as u64 > num
+    divisors::sum_proper_divisors(num, primes) as u64 > num
 }
 
 #[cfg(test)]

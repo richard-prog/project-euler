@@ -14,8 +14,8 @@ pub fn p24() -> u64 {
     permutation_n(&digits, 1_000_000)
 }
 
-fn permutation_n(digits: &Vec<String>, n: usize) -> u64 {
-    let mut digits = digits.clone();
+fn permutation_n(digits: &[String], n: usize) -> u64 {
+    let mut digits = digits.to_owned();
     let mut factorial: usize = (1..digits.len()).product();
     let mut target = n - 1;
     let mut result_string = String::with_capacity(digits.len());
@@ -24,7 +24,7 @@ fn permutation_n(digits: &Vec<String>, n: usize) -> u64 {
 	target %= factorial;
 	factorial /= digits.len();
     }
-    while digits.len() > 0 {
+    while !digits.is_empty() {
 	result_string.push_str(&digits.remove(0));
     }
     result_string.parse().unwrap()

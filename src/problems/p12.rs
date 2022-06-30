@@ -4,7 +4,7 @@ pub fn p12(primes: &Vec<u32>) -> u64 {
     let mut triangle_number = 0;
     for i in 1..u32::MAX {
 	triangle_number += i;
-	let num_divisors = divisors::count_divisors(triangle_number, &primes);
+	let num_divisors = divisors::count_divisors(triangle_number, primes);
 	if num_divisors > 500 {
 	    break;
 	}

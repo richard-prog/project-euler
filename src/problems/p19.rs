@@ -89,7 +89,7 @@ fn is_leap_year(year: u32) -> bool {
 	}
 	return true;
     }
-    return false;
+    false
 }
 
 #[cfg(test)]

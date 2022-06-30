@@ -23,7 +23,7 @@ pub fn sum_proper_divisors(num: u64, primes: &Vec<u32>) -> u32 {
     if num == 0 {
 	return 0;
     }
-    get_proper_divisors(num, &primes).iter().sum()
+    get_proper_divisors(num, primes).iter().sum()
 }
 
 fn extend_divisors(divisors: &mut Vec<u32>, base: u32, exponent: u32) {
@@ -36,7 +36,7 @@ fn extend_divisors(divisors: &mut Vec<u32>, base: u32, exponent: u32) {
 	}
 	multiple *= base;
     }
-    divisors.sort();
+    divisors.sort_unstable();
 }
 
 #[cfg(test)]

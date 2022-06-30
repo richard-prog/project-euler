@@ -1,5 +1,4 @@
-//use crate::primes;
-pub fn p05(primes: &Vec<u32>) -> u64 {
+pub fn p05(primes: &[u32]) -> u64 {
     get_smallest_divisible(20, primes)
 }
 

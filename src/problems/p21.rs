@@ -1,7 +1,7 @@
 use crate::divisors;
 
 pub fn p21(primes: &Vec<u32>) -> u64 {
-    sum_amicable_numbers_below(10_000, &primes)
+    sum_amicable_numbers_below(10_000, primes)
 }
 
 fn sum_amicable_numbers_below(limit: usize, primes: &Vec<u32>) -> u64 {
@@ -9,7 +9,7 @@ fn sum_amicable_numbers_below(limit: usize, primes: &Vec<u32>) -> u64 {
     let mut sum: u64 = 0;
     for i in 1..=limit {
 	if result[i] == None {
-	    match get_amicus(i as u64, &primes) {
+	    match get_amicus(i as u64, primes) {
 		PotentialAmicus::Amicus(j) => {
 		    if j as usize <= limit {
 			sum += j;
@@ -37,11 +37,11 @@ enum PotentialAmicus {
 }
 
 fn get_amicus(num: u64, primes: &Vec<u32>) -> PotentialAmicus {
-    let potential_amicus = divisors::sum_proper_divisors(num, &primes) as u64;
+    let potential_amicus = divisors::sum_proper_divisors(num, primes) as u64;
     if potential_amicus == num {
 	return PotentialAmicus::Not(potential_amicus);
     }
-    else if divisors::sum_proper_divisors(potential_amicus, &primes) as u64 == num {
+    else if divisors::sum_proper_divisors(potential_amicus, primes) as u64 == num {
 	return PotentialAmicus::Amicus(potential_amicus);
     }
     PotentialAmicus::Not(potential_amicus)

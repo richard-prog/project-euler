@@ -1,6 +1,6 @@
-pub fn symbolic_add(v: &Vec<u8>, u: &Vec<u8>) -> Vec<u8> {
-    let mut top = v.clone();
-    let mut bottom = u.clone();
+pub fn symbolic_add(v: &[u8], u: &[u8]) -> Vec<u8> {
+    let mut top = v.to_owned();
+    let mut bottom = u.to_owned();
     top.reverse();
     bottom.reverse();
     while top.len() < bottom.len() {
@@ -27,12 +27,13 @@ pub fn symbolic_add(v: &Vec<u8>, u: &Vec<u8>) -> Vec<u8> {
     result
 }
 
-pub fn symbolic_multiply(u: &Vec<u8>, v: &Vec<u8>) -> Vec<u8> {
+pub fn symbolic_multiply(u: &[u8], v: &[u8]) -> Vec<u8> {
     let mut result = vec![];
-    let mut bottom = v.clone();
+    let mut bottom = v.to_owned();
     bottom.reverse();
-    for i in 0..bottom.len() {
-	let mut digit_product = single_digit_symbolic_multiply(&u, bottom[i]);
+    // for i in 0..bottom.len() {
+    for (i, digit) in bottom.iter().enumerate() {
+	let mut digit_product = single_digit_symbolic_multiply(u, *digit);
 	for _ in 0..i {
 	    digit_product.push(b'0')
 	}
@@ -71,12 +72,12 @@ fn num_to_symbolic_num(num: u64) -> Vec<u8> {
 }
     
 
-fn single_digit_symbolic_multiply(multiplier: &Vec<u8>, digit: u8) -> Vec<u8> {
+fn single_digit_symbolic_multiply(multiplier: &[u8], digit: u8) -> Vec<u8> {
     if digit == b'0' {
 	return vec![b'0'];
     }
     let m = digit - b'0';
-    let mut top = multiplier.clone();
+    let mut top = multiplier.to_owned();
     top.reverse();
     let mut result = Vec::with_capacity(top.len() + 1);
     let mut carry = 0;
