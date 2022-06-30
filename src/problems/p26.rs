@@ -4,7 +4,10 @@ use std::collections::hash_map::Entry;
 pub fn p26() -> u64 {
     let mut cur_max = 0;
     for i in 1..1000 {
-	let l = cycle_length(i);
+	if i % 2 == 0 || i % 5 == 0 {
+	    continue;
+	}
+	let l = cycle_length_nonzero(i);
 	if l > cur_max {
 	    cur_max = i;
 	}
@@ -18,21 +21,7 @@ struct DecimalDigit {
     remainder: u64,
 }
 
-fn zero_cycle_length(denominator: u64) -> bool {
-    let mut n = denominator;
-    while n % 2 == 0 {
-	n /= 2;
-    }
-    while n % 5 == 0 {
-	n /= 5;
-    }
-    n == 1
-}
-
-fn cycle_length(denominator: u64) -> u64 {
-    if zero_cycle_length(denominator) {
-	return 0;
-    }
+fn cycle_length_nonzero(denominator: u64) -> u64 {
     let mut digits: HashMap<DecimalDigit, u64> = HashMap::new();
     let mut place = 1;
     let mut cur = 1;
@@ -60,11 +49,9 @@ mod tests {
 
     #[test]
     fn test_cycle_length() {
-	assert_eq!(cycle_length(2), 0, "Denominator = 2");
-	assert_eq!(cycle_length(3), 1, "Denominator = 3");
-	assert_eq!(cycle_length(4), 0, "Denominator = 4");
-	assert_eq!(cycle_length(6), 1, "Denominator = 6");
-	assert_eq!(cycle_length(7), 6, "Denominator = 7");
-	assert_eq!(cycle_length(11), 2, "Denominator = 11");
+	assert_eq!(cycle_length_nonzero(3), 1, "Denominator = 3");
+	assert_eq!(cycle_length_nonzero(6), 1, "Denominator = 6");
+	assert_eq!(cycle_length_nonzero(7), 6, "Denominator = 7");
+	assert_eq!(cycle_length_nonzero(11), 2, "Denominator = 11");
     }
 }
