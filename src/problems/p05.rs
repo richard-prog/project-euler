@@ -1,26 +1,25 @@
 //use crate::primes;
 pub fn p05(primes: &Vec<u32>) -> u64 {
-    get_smallest_divisible(20, &primes)
+    get_smallest_divisible(20, primes)
 }
 
-fn get_smallest_divisible(n: u32, primes: &Vec<u32>) -> u64 {
-    // let prime_vec = crate::primes::get_primes();
+fn get_smallest_divisible(n: u32, primes: &[u32]) -> u64 {
     let mut count_vec: Vec<(u32, u32)> = Vec::new();
     let mut i = 0;
     while primes[i] < n {
         count_vec.push((primes[i], 1));
         i += 1
     }
-    for i in 0..count_vec.len() {
-        let base = count_vec[i].0;
-        let mut exp = count_vec[i].1;
-        while base.pow(exp + 1) <= n {
-            exp += 1;
+    for (base, exp) in &mut count_vec {
+        // let base = count_vec[i].0;
+        // let mut exp = count_vec[i].1;
+        while base.pow(*exp + 1) <= n {
+            *exp += 1;
         }
-        if exp == 1 {
+        if *exp == 1 {
             break;
         }
-        count_vec[i].1 = exp;
+        //count_vec[i].1 = exp;
     }
     let mut product = 1u64;
     for pair in count_vec {

@@ -1,4 +1,4 @@
-pub fn p07(primes: &Vec<u32>) -> u64 {
+pub fn p07(primes: &[u32]) -> u64 {
     primes[10_000] as u64
 }
 
