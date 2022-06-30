@@ -54,7 +54,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn zzz() {
+    fn check_solution() {
 	assert_eq!(p26(), 983);
     }
 
