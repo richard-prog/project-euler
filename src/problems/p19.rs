@@ -1,22 +1,31 @@
 pub fn p19() -> u64 {
-    let mut year = 1900;
-    let mut day = 1;
-    let mut month = January;
+    let mut date = Date::from(1900, January, 1);
     let mut count_full = 0;
-    while year < 2001 {
-	advance(&mut count_full, &mut year, &mut month, &mut day);
+    while date.year < 2001 {
+	advance(&mut count_full, &mut date);
     }
-    let mut year = 1900;
-    let mut day = 1;
-    let mut month = January;
+    
+    date = Date::from(1900, January, 1);
     let mut count_partial = 0;
-    while year < 1901 {
-	advance(&mut count_partial, &mut year, &mut month, &mut day);
+    while date.year < 1901 {
+	advance(&mut count_partial, &mut date);
     }
     count_full - count_partial
 }
 
 use Month::{January, February, March, April, May, June, July, August, September, October, November, December};
+
+struct Date {
+    year: u16,
+    month: Month,
+    day: u8,
+}
+
+impl Date {
+    fn from(year: u16, month: Month, day: u8) -> Date {
+	Date {year, month, day}
+    }
+}
 
 #[derive(Copy, Clone)]
 enum Month {
@@ -53,30 +62,30 @@ impl Month {
     }
 }
 
-fn advance(count: &mut u64, year: &mut u32, month: &mut Month, day: &mut u8) {
-    if *day == 0 {
+fn advance(count: &mut u64, date: &mut Date) {
+    if date.day == 0 {
 	*count += 1;
     }
 
-    match month {
+    match date.month {
 	September | April | June | November => {
-	    *day = (*day + 30) % 7;
+	    date.day = (date.day + 30) % 7;
 	},
 	January | March | May | July | August | October => {
-	    *day = (*day + 31) % 7;
+	    date.day = (date.day + 31) % 7;
 	},
 	December => {
-	    *day = (*day + 31) % 7;
-	    *year += 1;
+	    date.day = (date.day + 31) % 7;
+	    date.year += 1;
 	},
 	February => {
-	    if is_leap_year(*year) {
-		*day = (*day + 29) % 7;
+	    if is_leap_year(date.year as u32) {
+		date.day = (date.day + 29) % 7;
 	    }
 	    //No else: (*day + 28) % 7 == day
 	}
     }
-    *month = month.next();
+    date.month = date.month.next();
 }
 
 fn is_leap_year(year: u32) -> bool {
