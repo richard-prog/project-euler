@@ -1,6 +1,8 @@
 const NUM_ROWS: usize = 20;
 const NUM_COLS: usize = 20;
 
+type U8Grid = [[u8; NUM_COLS]; NUM_ROWS];
+
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 
@@ -13,9 +15,9 @@ pub fn p11() -> u64 {
     largest_product(&grid, 4) as u64
 }
 
-fn read_from_file() -> [[u8; NUM_COLS]; NUM_ROWS] {
+fn read_from_file() -> U8Grid {
     let lines = BufReader::new(File::open("p11.txt").unwrap()).lines();
-    let mut grid: [[u8; NUM_COLS]; NUM_ROWS] = [[0; NUM_COLS]; NUM_ROWS];
+    let mut grid: U8Grid = [[0; NUM_COLS]; NUM_ROWS];
     for (i, line) in lines.enumerate() {
 	for (j, num) in line.unwrap().split(' ').enumerate(){
 	    grid[i][j] = num.parse::<u8>().unwrap();
@@ -24,7 +26,7 @@ fn read_from_file() -> [[u8; NUM_COLS]; NUM_ROWS] {
     grid
 }
     
-fn largest_product(grid: &[[u8; NUM_COLS]; NUM_ROWS], num_adjacent: usize) -> u64 {
+fn largest_product(grid: &U8Grid, num_adjacent: usize) -> u64 {
     let mut max_product = 0;
     'outer: for row in grid.iter().take(NUM_ROWS) {
 	for element in row.iter().take(NUM_COLS) {
@@ -45,7 +47,7 @@ fn largest_product(grid: &[[u8; NUM_COLS]; NUM_ROWS], num_adjacent: usize) -> u6
     *products.iter().max().unwrap()
 }
 
-fn largest_horizontal_product(grid: &[[u8; NUM_COLS]; NUM_ROWS], num_adjacent: usize) -> u64 {
+fn largest_horizontal_product(grid: &U8Grid, num_adjacent: usize) -> u64 {
     let mut max_product = 1;
     for row in grid.iter().take(NUM_ROWS) {
 	for j in 0..(NUM_COLS - num_adjacent) {
@@ -61,7 +63,7 @@ fn largest_horizontal_product(grid: &[[u8; NUM_COLS]; NUM_ROWS], num_adjacent: u
     max_product
 }
 
-fn largest_vertical_product(grid: &[[u8; NUM_COLS]; NUM_ROWS], num_adjacent: usize) -> u64 {
+fn largest_vertical_product(grid: &U8Grid, num_adjacent: usize) -> u64 {
     let mut max_product = 1;
     for j in 0..NUM_COLS {
     	for i in 0..(NUM_ROWS - num_adjacent) {
@@ -77,7 +79,7 @@ fn largest_vertical_product(grid: &[[u8; NUM_COLS]; NUM_ROWS], num_adjacent: usi
     max_product
 }
 
-fn largest_major_diagonal_product(grid: &[[u8; NUM_COLS]; NUM_ROWS], num_adjacent: usize) -> u64 {
+fn largest_major_diagonal_product(grid: &U8Grid, num_adjacent: usize) -> u64 {
     let mut max_product = 1;
     for i in 0..(NUM_ROWS - num_adjacent) {
 	for j in 0..(NUM_COLS - num_adjacent) {
@@ -93,7 +95,7 @@ fn largest_major_diagonal_product(grid: &[[u8; NUM_COLS]; NUM_ROWS], num_adjacen
     max_product
 }
 
-fn largest_minor_diagonal_product(grid: &[[u8; NUM_COLS]; NUM_ROWS], num_adjacent: usize) -> u64 {
+fn largest_minor_diagonal_product(grid: &U8Grid, num_adjacent: usize) -> u64 {
     let mut max_product = 1;
     for i in 0..(NUM_ROWS - num_adjacent) {
 	for j in 0..(NUM_COLS - num_adjacent) {
