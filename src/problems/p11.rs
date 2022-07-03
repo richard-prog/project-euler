@@ -122,4 +122,25 @@ mod tests {
     fn check_solution() {
 	assert_eq!(p11(), 70600674);
     }
+
+    #[test]
+    fn check_zero_row() {
+	assert_eq!(zero_row(&[0; 20]), true);
+	assert_eq!(zero_row(&[1; 20]), false);
+    }
+
+    #[test]
+    fn check_zero_grid() {
+	assert_eq!(zero_grid(&[[0; 20]; 20]), true);
+	assert_eq!(zero_grid(&[[1; 20]; 20]), false);
+    }
+
+    #[test]
+    fn check_largest_products() {
+	let grid = read_from_file();
+	assert_eq!(largest_horizontal_product(&grid, 4), 48477312);
+	assert_eq!(largest_vertical_product(&grid, 4), 51267216);
+	assert_eq!(largest_major_diagonal_product(&grid, 4), 32719995);
+	assert_eq!(largest_minor_diagonal_product(&grid, 4), 70600674);
+    }
 }
