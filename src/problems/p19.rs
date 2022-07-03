@@ -18,12 +18,12 @@ use Month::{January, February, March, April, May, June, July, August, September,
 struct Date {
     year: u16,
     month: Month,
-    day: u8,
+    day_of_week: u8,
 }
 
 impl Date {
-    fn from(year: u16, month: Month, day: u8) -> Date {
-	Date {year, month, day}
+    fn from(year: u16, month: Month, day_of_week: u8) -> Date {
+	Date {year, month, day_of_week}
     }
 }
 
@@ -63,26 +63,26 @@ impl Month {
 }
 
 fn advance(count: &mut u64, date: &mut Date) {
-    if date.day == 0 {
+    if date.day_of_week == 0 {
 	*count += 1;
     }
 
     match date.month {
 	September | April | June | November => {
-	    date.day = (date.day + 30) % 7;
+	    date.day_of_week = (date.day_of_week + 30) % 7;
 	},
 	January | March | May | July | August | October => {
-	    date.day = (date.day + 31) % 7;
+	    date.day_of_week = (date.day_of_week + 31) % 7;
 	},
 	December => {
-	    date.day = (date.day + 31) % 7;
+	    date.day_of_week = (date.day_of_week + 31) % 7;
 	    date.year += 1;
 	},
 	February => {
 	    if is_leap_year(date.year as u32) {
-		date.day = (date.day + 29) % 7;
+		date.day_of_week = (date.day_of_week + 29) % 7;
 	    }
-	    //No else: (*day + 28) % 7 == day
+	    //No else: (*day_of_week + 28) % 7 == day_of_week
 	}
     }
     date.month = date.month.next();
