@@ -1,7 +1,8 @@
 const NUM_ROWS: usize = 20;
 const NUM_COLS: usize = 20;
 
-type U8Grid = [[u8; NUM_COLS]; NUM_ROWS];
+type Row = [u8; NUM_COLS];
+type U8Grid = [Row; NUM_ROWS];
 
 use std::fs::File;
 use std::io::{BufRead, BufReader};
@@ -27,24 +28,24 @@ fn read_from_file() -> U8Grid {
 }
     
 fn largest_product(grid: &U8Grid, num_adjacent: usize) -> u64 {
-    let mut max_product = 0;
-    'outer: for row in grid.iter().take(NUM_ROWS) {
-	for element in row.iter().take(NUM_COLS) {
-	    if *element != 0 {
-		max_product = 1;
-		break 'outer;
-	    }
-	}
-    }
-    if max_product == 0 {
+    if zero_grid(grid) {
 	return 0;
     }
-    let mut products = Vec::with_capacity(4);
-    products.push(largest_horizontal_product(&grid, num_adjacent));
-    products.push(largest_vertical_product(&grid, num_adjacent));
-    products.push(largest_major_diagonal_product(&grid, num_adjacent));
-    products.push(largest_minor_diagonal_product(&grid, num_adjacent));
+    let products = vec![
+	largest_horizontal_product(grid, num_adjacent),
+	largest_vertical_product(grid, num_adjacent),
+	largest_major_diagonal_product(grid, num_adjacent),
+	largest_minor_diagonal_product(grid, num_adjacent),
+    ];
     *products.iter().max().unwrap()
+}
+
+fn zero_row(row: &Row) -> bool {
+    row.iter().take(NUM_COLS).all(|x| *x == 0)
+}
+
+fn zero_grid(grid: &U8Grid) -> bool {
+    grid.iter().take(NUM_ROWS).all(zero_row)
 }
 
 fn largest_horizontal_product(grid: &U8Grid, num_adjacent: usize) -> u64 {
