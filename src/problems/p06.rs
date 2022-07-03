@@ -1,14 +1,9 @@
+const NUM_TERMS: u64 = 100;
+
 pub fn p06() -> u64 {
-    let n: u64 = 100;
-    let mut sum_of_squares = 0;
-    for i in 0..=n {
-        sum_of_squares += i.pow(2);
-    }
-    let mut square_of_sum = 0;
-    for i in 0..=n {
-        square_of_sum += i;
-    }
-    square_of_sum = square_of_sum.pow(2);
+    let sum_of_squares: u64 = (1..=NUM_TERMS).map(|x| x * x).sum();
+    let sum = (NUM_TERMS) * (NUM_TERMS + 1) / 2;
+    let square_of_sum = sum * sum;
     square_of_sum - sum_of_squares
 }
 

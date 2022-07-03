@@ -21,11 +21,11 @@ fn read_from_file() -> [[u8; NUM_COLS]; NUM_ROWS] {
     grid
 }
     
-fn largest_product(grid: &[[u8; NUM_COLS]; NUM_ROWS], l: usize) -> u64 {
+fn largest_product(grid: &[[u8; NUM_COLS]; NUM_ROWS], num_adjacent: usize) -> u64 {
     let mut max_product = 0;
-    'outer: for i in 0..NUM_ROWS {
-	for j in 0..NUM_COLS {
-	    if grid[i][j] != 0 {
+    'outer: for row in grid.iter().take(NUM_ROWS) {
+	for element in row.iter().take(NUM_COLS) {
+	    if *element != 0 {
 		max_product = 1;
 		break 'outer;
 	    }
@@ -35,22 +35,23 @@ fn largest_product(grid: &[[u8; NUM_COLS]; NUM_ROWS], l: usize) -> u64 {
 	return 0;
     }
     //horizontal
-    for i in 0..NUM_ROWS {
-    	for j in 0..(NUM_COLS - l) {
-    	    let mut cur_product = 1;
-    	    for k in 0..l {
-    		cur_product *= grid[i][j + k] as u64;
-    	    }
-    	    if cur_product > max_product {
-    		max_product = cur_product;
-    	    }
-    	}
+    for row in grid.iter().take(NUM_ROWS) {
+	for j in 0..(NUM_COLS - num_adjacent) {
+	    let mut cur_product = 1;
+	    for k in 0..num_adjacent {
+		cur_product *= row[j + k] as u64;
+	    }
+	    if cur_product > max_product {
+		max_product = cur_product;
+	    }
+	}
     }
+
     //vertical
     for j in 0..NUM_COLS {
-    	for i in 0..(NUM_ROWS - l) {
+    	for i in 0..(NUM_ROWS - num_adjacent) {
     	    let mut cur_product = 1;
-    	    for k in 0..l {
+    	    for k in 0..num_adjacent {
     		cur_product *= grid[i + k][j] as u64;
     	    }
     	    if cur_product > max_product {
@@ -58,12 +59,13 @@ fn largest_product(grid: &[[u8; NUM_COLS]; NUM_ROWS], l: usize) -> u64 {
     	    }
     	}
     }
+    
     //diagonal
-    for i in 0..(NUM_ROWS - l) {
-	for j in 0..(NUM_COLS - l) {
+    for i in 0..(NUM_ROWS - num_adjacent) {
+	for j in 0..(NUM_COLS - num_adjacent) {
 	    //left-to-right diagonal
 	    let mut cur_product = 1;
-	    for k in 0..l {
+	    for k in 0..num_adjacent {
 		cur_product *= grid[i + k][j + k] as u64;
 	    }
 	    if cur_product > max_product {
@@ -71,8 +73,9 @@ fn largest_product(grid: &[[u8; NUM_COLS]; NUM_ROWS], l: usize) -> u64 {
 	    }
 	    //right-to-left diagonal
 	    cur_product = 1;
-	    for k in 0..l {
-		cur_product *= grid[i + (l - 1) - k][j + k] as u64;
+	    for k in 0..num_adjacent {
+		let row = i + (num_adjacent - 1) - k;
+		cur_product *= grid[row][j + k] as u64;
 	    }
 	    if cur_product > max_product {
 		max_product = cur_product;

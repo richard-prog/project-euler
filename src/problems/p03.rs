@@ -1,19 +1,20 @@
+const NUMBER_FOR_PROBLEM_THREE: u64 = 600851475143;
+
 pub fn p03() -> u64 {
-    let v = get_prime_factors(600851475143);
-    v[v.len() - 1]
+    *get_prime_factors(NUMBER_FOR_PROBLEM_THREE).last().unwrap()
 }
 
-fn get_prime_factors(mut x: u64) -> Vec<u64> {
-    let mut v = Vec::new();
-    let mut n = 1;
-    while n < x {
-        n += 1;
-        while x % n == 0 {
-            v.push(n);
-            x /= n;
+fn get_prime_factors(mut upper_limit: u64) -> Vec<u64> {
+    let mut factors = Vec::new();
+    let mut factor = 1;
+    while factor < upper_limit {
+        factor += 1;
+        while upper_limit % factor == 0 {
+            factors.push(factor);
+            upper_limit /= factor;
         }
     }
-    v
+    factors
 }
 
 #[cfg(test)]

@@ -19,13 +19,11 @@ pub fn p08() -> u64 {
 84580156166097919133875499200524063689912560717606
 05886116467109405077541002256983155200055935729725
 71636269561882670428252483600823257530420752963450";
-    let mut v: Vec<u8> = Vec::with_capacity(1000);
-    for c in s.bytes() {
-        if c != b'\n' {
-            v.push(c - b'0');
-        }
-    }
-    greatest_product(&v, 13)
+    let digits = s.bytes()
+	.filter(|c| *c != b'\n')
+	.map(|c| c - b'0')
+	.collect();
+    greatest_product(&digits, 13)
 }
 
 fn greatest_product(digits: &Vec<u8>, num_consecutive: usize) -> u64 {

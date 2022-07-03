@@ -1,13 +1,13 @@
 pub fn p01() -> u64 {
-    let limit = 1000;
-    sum_positive_multiples(limit, 3)
-	+ sum_positive_multiples(limit, 5)
-	- sum_positive_multiples(limit, 15)
+    let upper_limit = 1000;
+    sum_positive_multiples(upper_limit, 3)
+	+ sum_positive_multiples(upper_limit, 5)
+	- sum_positive_multiples(upper_limit, 15)
 }
 
-fn sum_positive_multiples(limit: u64, multiple: u64) -> u64 {
-    let scaled_limit = (limit - 1) / multiple;
-    scaled_limit * (scaled_limit + 1) / 2 * multiple
+fn sum_positive_multiples(upper_limit: u64, multiple: u64) -> u64 {
+    let scaled_upper_limit = (upper_limit - 1) / multiple;
+    scaled_upper_limit * (scaled_upper_limit + 1) / 2 * multiple
 }
     
 

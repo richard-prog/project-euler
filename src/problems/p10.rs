@@ -1,8 +1,8 @@
 pub fn p10(primes: &Vec<u32>) -> u64 {
     let mut sum: u64 = 0;
     let mut i = 0;
-    let l = primes.len();
-    while i < l && primes[i] < 2_000_000 {
+    let num_primes = primes.len();
+    while i < num_primes && primes[i] < 2_000_000 {
         sum += primes[i] as u64;
         i += 1;
     }

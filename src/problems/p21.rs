@@ -4,24 +4,24 @@ pub fn p21(primes: &Vec<u32>) -> u64 {
     sum_amicable_numbers_below(10_000, primes)
 }
 
-fn sum_amicable_numbers_below(limit: usize, primes: &Vec<u32>) -> u64 {
-    let mut result: Vec<Option<bool>> = vec![None; limit + 1];
+fn sum_amicable_numbers_below(upper_limit: usize, primes: &Vec<u32>) -> u64 {
+    let mut already_checked: Vec<bool> = vec![false; upper_limit + 1];
     let mut sum: u64 = 0;
-    for i in 1..=limit {
-	if result[i] == None {
+    for i in 1..=upper_limit {
+	if !already_checked[i] {
 	    match get_amicus(i as u64, primes) {
 		PotentialAmicus::Amicus(j) => {
-		    if j as usize <= limit {
+		    if j as usize <= upper_limit {
 			sum += j;
-			result[j as usize] = Some(true);
+			already_checked[j as usize] = true;
 		    }
 		    sum += i as u64;
-		    result[i as usize] = Some(true);
+		    already_checked[i as usize] = true;
 		}
 		PotentialAmicus::Not(j) => {
-		    result[i as usize] = Some(false);
-		    if j as usize <= limit {
-			result[j as usize] = Some(false);
+		    already_checked[i as usize] = true;
+		    if j as usize <= upper_limit {
+			already_checked[j as usize] = true;
 		    }
 		}
 	    }

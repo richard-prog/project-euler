@@ -15,17 +15,14 @@ pub fn p04() -> u64 {
     largest_so_far as u64
 }
 
-fn is_palindrome(mut n: i64) -> bool {
-    let mut v = Vec::<i8>::new();
-    while n > 0 {
-        v.push((n % 10).try_into().unwrap());
-        n /= 10;
-    }
-    let l = v.len();
-    for i in 0..(l / 2 + 1) {
-        if v[i] != v[l - i - 1] {
-            return false;
-        }
+fn is_palindrome(n: i64) -> bool {
+    let s = format!("{}", n);
+    let digits = s.as_bytes();
+    let num_digits = digits.len();
+    for i in 0..num_digits {
+	if digits[i] != digits[(num_digits - 1) - i] {
+	    return false;
+	}
     }
     true
 }
