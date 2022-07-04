@@ -13,7 +13,7 @@ pub fn p11() -> u64 {
     }
     let grid = read_from_file();
     
-    largest_product(&grid, 4) as u64
+    max_grid_product(&grid, 4)
 }
 
 fn read_from_file() -> U8Grid {
@@ -27,99 +27,76 @@ fn read_from_file() -> U8Grid {
     grid
 }
     
-fn largest_product(grid: &U8Grid, num_adjacent: usize) -> u64 {
+fn max_grid_product(grid: &U8Grid, num_adjacent: usize) -> u64 {
     if zero_grid(grid) {
 	return 0;
     }
-    let products = vec![
-	largest_horizontal_product(grid, num_adjacent),
-	largest_vertical_product(grid, num_adjacent),
-	largest_major_diagonal_product(grid, num_adjacent),
-	largest_minor_diagonal_product(grid, num_adjacent),
-    ];
-    *products.iter().max().unwrap()
+    let mut cur_max = 1;
+    for i in 0..NUM_ROWS {
+	for j in 0..NUM_COLS {
+	    update_max(grid, num_adjacent, (i, j), &mut cur_max);
+	}
+    }
+    cur_max
 }
 
-fn zero_row(row: &Row) -> bool {
-    row.iter().take(NUM_COLS).all(|x| *x == 0)
+fn update_max(grid: &U8Grid,
+	      num_adjacent: usize,
+	      pivot: (usize, usize),
+	      max: &mut u64)
+{
+    let(i, j) = pivot;
+    let space_right = j + num_adjacent < NUM_COLS;
+    let space_left = j + 1 >= num_adjacent;
+    let space_below = i + num_adjacent < NUM_ROWS;
+    if space_right {
+	let mut horizontal = 1;
+    	for offset in 0..num_adjacent {
+    	    horizontal *= grid[i][j + offset] as u64;
+    	}
+	if horizontal > *max {
+	    *max = horizontal;
+	}
+    }
+    
+    let (mut vertical, mut major, mut minor) = (1, 1, 1);
+    if space_below {
+    	for offset in 0..num_adjacent {
+    	    vertical *= grid[i + offset][j] as u64;
+	    
+    	    if space_right {
+    		major *= grid[i + offset][j + offset] as u64;
+    	    }
+    	    if space_left {
+    		minor *= grid[i + offset][j - offset] as u64;
+    	    }
+    	}
+    }
+    if vertical > *max {
+	*max = vertical;
+    }
+    if major > *max {
+	*max = major;
+    }
+    if minor > *max {
+	*max = minor;
+    }
 }
 
 fn zero_grid(grid: &U8Grid) -> bool {
     grid.iter().take(NUM_ROWS).all(zero_row)
 }
 
-fn largest_horizontal_product(grid: &U8Grid, num_adjacent: usize) -> u64 {
-    let mut max_product = 1;
-    for row in grid.iter().take(NUM_ROWS) {
-	for j in 0..(NUM_COLS - num_adjacent) {
-	    let mut cur_product = 1;
-	    for k in 0..num_adjacent {
-		cur_product *= row[j + k] as u64;
-	    }
-	    if cur_product > max_product {
-		max_product = cur_product;
-	    }
-	}
-    }
-    max_product
+fn zero_row(row: &Row) -> bool {
+    row.iter().take(NUM_COLS).all(|x| *x == 0)
 }
-
-fn largest_vertical_product(grid: &U8Grid, num_adjacent: usize) -> u64 {
-    let mut max_product = 1;
-    for j in 0..NUM_COLS {
-    	for i in 0..(NUM_ROWS - num_adjacent) {
-    	    let mut cur_product = 1;
-    	    for k in 0..num_adjacent {
-    		cur_product *= grid[i + k][j] as u64;
-    	    }
-    	    if cur_product > max_product {
-    		max_product = cur_product;
-    	    }
-    	}
-    }
-    max_product
-}
-
-fn largest_major_diagonal_product(grid: &U8Grid, num_adjacent: usize) -> u64 {
-    let mut max_product = 1;
-    for i in 0..(NUM_ROWS - num_adjacent) {
-	for j in 0..(NUM_COLS - num_adjacent) {
-	    let mut cur_product = 1;
-	    for k in 0..num_adjacent {
-		cur_product *= grid[i + k][j + k] as u64;
-	    }
-	    if cur_product > max_product {
-		max_product = cur_product;
-	    }
-	}
-    }
-    max_product
-}
-
-fn largest_minor_diagonal_product(grid: &U8Grid, num_adjacent: usize) -> u64 {
-    let mut max_product = 1;
-    for i in 0..(NUM_ROWS - num_adjacent) {
-	for j in 0..(NUM_COLS - num_adjacent) {
-	    let mut cur_product = 1;
-	    for k in 0..num_adjacent {
-		let row = i + (num_adjacent - 1) - k;
-		cur_product *= grid[row][j + k] as u64;
-	    }
-	    if cur_product > max_product {
-		max_product = cur_product;
-	    }
-	}
-    }
-    max_product
-}
-
 
 #[cfg(test)]
 mod tests {
     use super::*;
 
     #[test]
-    fn check_solution() {
+    fn zzz() {
 	assert_eq!(p11(), 70600674);
     }
 
@@ -133,14 +110,5 @@ mod tests {
     fn check_zero_grid() {
 	assert_eq!(zero_grid(&[[0; 20]; 20]), true);
 	assert_eq!(zero_grid(&[[1; 20]; 20]), false);
-    }
-
-    #[test]
-    fn check_largest_products() {
-	let grid = read_from_file();
-	assert_eq!(largest_horizontal_product(&grid, 4), 48477312);
-	assert_eq!(largest_vertical_product(&grid, 4), 51267216);
-	assert_eq!(largest_major_diagonal_product(&grid, 4), 32719995);
-	assert_eq!(largest_minor_diagonal_product(&grid, 4), 70600674);
     }
 }
