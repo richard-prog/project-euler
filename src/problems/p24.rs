@@ -46,7 +46,8 @@ mod tests {
 		     String::from("2")];
 	let permutation_vec = vec!["012", "021", "102", "120", "201", "210"];
 	for i in 0..permutation_vec.len() {
-	    assert_eq!(permutation_n(&v, i+1), permutation_vec[i].parse::<u64>().unwrap());
+	    assert_eq!(permutation_n(&v, i+1),
+		       permutation_vec[i].parse::<u64>().unwrap());
 	}
     }
 }

@@ -7,8 +7,8 @@ pub fn p26() -> u64 {
 	if i % 2 == 0 || i % 5 == 0 {
 	    continue;
 	}
-	let l = cycle_length_nonzero(i);
-	if l > cur_max {
+	let cycle_length = positive_cycle_length(i);
+	if cycle_length > cur_max {
 	    cur_max = i;
 	}
     }
@@ -21,13 +21,16 @@ struct DecimalDigit {
     remainder: u64,
 }
 
-fn cycle_length_nonzero(denominator: u64) -> u64 {
+fn positive_cycle_length(denominator: u64) -> u64 {
     let mut digits: HashMap<DecimalDigit, u64> = HashMap::new();
     let mut place = 1;
     let mut cur = 1;
     loop {
 	cur *= 10;
-	let d = DecimalDigit{digit: (cur / denominator) as u8, remainder: (cur % denominator) as u64};
+	let d = DecimalDigit{
+	    digit: (cur / denominator) as u8,
+	    remainder: (cur % denominator) as u64
+	};
 	if let Entry::Occupied(digit) = digits.entry(d) {
 	    return place - digit.get();
 	} else {
@@ -49,9 +52,9 @@ mod tests {
 
     #[test]
     fn test_cycle_length() {
-	assert_eq!(cycle_length_nonzero(3), 1, "Denominator = 3");
-	assert_eq!(cycle_length_nonzero(6), 1, "Denominator = 6");
-	assert_eq!(cycle_length_nonzero(7), 6, "Denominator = 7");
-	assert_eq!(cycle_length_nonzero(11), 2, "Denominator = 11");
+	assert_eq!(positive_cycle_length(3), 1, "Denominator = 3");
+	assert_eq!(positive_cycle_length(6), 1, "Denominator = 6");
+	assert_eq!(positive_cycle_length(7), 6, "Denominator = 7");
+	assert_eq!(positive_cycle_length(11), 2, "Denominator = 11");
     }
 }

@@ -7,14 +7,15 @@ pub fn p14() -> u64 {
     let mut longest_term = 1;
     let mut term: u32 = 2;
     while term as usize <= NUM_TERMS {
-	let mut uncached_count = 0;
+	let mut uncached_length = 0;
 	let mut uncached_term: u64 = term as u64;
 	while uncached_term >= term as u64 {
 	    uncached_term = next(uncached_term as u64);
-	    uncached_count += 1;
+	    uncached_length += 1;
 	}
 	//invariant: after every loop, cache_lengths[0..=term-1] full
-	let sequence_length = uncached_count + cache_lengths[uncached_term as usize - 1];
+	let cached_length = cache_lengths[uncached_term as usize - 1];
+	let sequence_length = uncached_length + cached_length;
 	if sequence_length > longest_sequence {
 	    longest_sequence = sequence_length;
 	    longest_term = term;

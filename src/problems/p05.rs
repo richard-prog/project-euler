@@ -2,13 +2,13 @@ pub fn p05(primes: &[u32]) -> u64 {
     smallest_divisible_by_numbers_at_most(20, primes)
 }
 
-fn smallest_divisible_by_numbers_at_most(upper_limit: u32, primes: &[u32]) -> u64 {
+fn smallest_divisible_by_numbers_at_most(max: u32, primes: &[u32]) -> u64 {
     let mut product = 1;
     let mut i = 0;
-    while primes[i] < upper_limit {
+    while primes[i] < max {
 	let base = primes[i];
 	let mut partial_product = base;
-	while partial_product * base < upper_limit {
+	while partial_product * base < max {
 	    partial_product *= base;
 	}
 	product *= partial_product as u64;

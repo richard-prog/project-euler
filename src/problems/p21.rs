@@ -38,10 +38,11 @@ enum PotentialAmicus {
 
 fn get_amicus(num: u64, primes: &Vec<u32>) -> PotentialAmicus {
     let potential_amicus = divisors::sum_proper_divisors(num, primes) as u64;
-    if potential_amicus == num {
-	return PotentialAmicus::Not(potential_amicus);
-    }
-    else if divisors::sum_proper_divisors(potential_amicus, primes) as u64 == num {
+    let amicus_amicus = divisors::sum_proper_divisors(potential_amicus, primes);
+    if amicus_amicus as u64 == num {
+	if potential_amicus == num {
+    	    return PotentialAmicus::Not(potential_amicus);
+	}
 	return PotentialAmicus::Amicus(potential_amicus);
     }
     PotentialAmicus::Not(potential_amicus)

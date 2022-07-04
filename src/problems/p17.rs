@@ -43,8 +43,13 @@ fn num_to_words(num: u32) -> String {
 	70 => "seventy".to_string(),
 	80 => "eighty".to_string(),
 	90 => "ninety".to_string(),
-	100..=900 if num % 100 == 0 => format!("{} hundred", num_to_words(num / 100)),
-	101..=999 => format!("{} hundred and {}", num_to_words(num / 100), num_to_words(num % 100)),
+	100..=900 if num % 100 == 0 => {
+	    format!("{} hundred", num_to_words(num / 100))
+	},
+	101..=999 => {
+	    format!("{} hundred and {}", num_to_words(num / 100),
+		    num_to_words(num % 100))
+	},
 	1000 => "one thousand".to_string(),
 	_ => panic!("You done goofed"),
     }
