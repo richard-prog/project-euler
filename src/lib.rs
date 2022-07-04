@@ -5,6 +5,7 @@ pub mod maximum_path_sum;
 pub mod primes;
 pub mod read_from_file;
 pub mod symbolic_math;
+pub mod utility;
 
 pub fn run_problems(problem_numbers: &[u16]) {
     let primes = primes::get_primes();
@@ -13,34 +14,36 @@ pub fn run_problems(problem_numbers: &[u16]) {
     }
 }
 
-fn run_problem(problem_number: u16, primes: &Vec<u32>) -> u64 {
+fn run_problem(problem_number: u16, primes: &Vec<u32>) -> i64 {
     match problem_number {
-	1 => problems::p01(),
-	2 => problems::p02(),
-	3 => problems::p03(),
-	4 => problems::p04(),
-	5 => problems::p05(primes),
-	6 => problems::p06(),
-	7 => problems::p07(primes),
-	8 => problems::p08(),
-	9 => problems::p09(),
-	10 => problems::p10(primes),
-	11 => problems::p11(),
-	12 => problems::p12(primes),
-	13 => problems::p13(),
-	14 => problems::p14(),
-	15 => problems::p15(),
-	16 => problems::p16(),
-	17 => problems::p17(),
-	18 => problems::p18(),
-	19 => problems::p19(),
-	20 => problems::p20(),
-	21 => problems::p21(primes),
-	22 => problems::p22(),
-	23 => problems::p23(primes),
-	24 => problems::p24(),
-	25 => problems::p25(),
-	26 => problems::p26(),
+	1 => problems::p01() as i64,
+	2 => problems::p02() as i64,
+	3 => problems::p03() as i64,
+	4 => problems::p04() as i64,
+	5 => problems::p05(primes) as i64,
+	6 => problems::p06() as i64,
+	7 => problems::p07(primes) as i64,
+	8 => problems::p08() as i64,
+	9 => problems::p09() as i64,
+	10 => problems::p10(primes) as i64,
+	11 => problems::p11() as i64,
+	12 => problems::p12(primes) as i64,
+	13 => problems::p13() as i64,
+	14 => problems::p14() as i64,
+	15 => problems::p15() as i64,
+	16 => problems::p16() as i64,
+	17 => problems::p17() as i64,
+	18 => problems::p18() as i64,
+	19 => problems::p19() as i64,
+	20 => problems::p20() as i64,
+	21 => problems::p21(primes) as i64,
+	22 => problems::p22() as i64,
+	23 => problems::p23(primes) as i64,
+	24 => problems::p24() as i64,
+	25 => problems::p25() as i64,
+	26 => problems::p26() as i64,
+	27 => problems::p27(primes),
+	28 => problems::p28() as i64,
 	_ => 42
     }
 }

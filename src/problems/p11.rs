@@ -12,7 +12,9 @@ pub fn p11() -> u64 {
 	return 0;
     }
     let grid = read_from_file();
-    
+    for _ in 0..10_000 {
+	max_grid_product(&grid, 4);
+    }
     max_grid_product(&grid, 4)
 }
 
@@ -46,12 +48,13 @@ fn update_max(grid: &U8Grid,
 	      max: &mut u64)
 {
     let(i, j) = pivot;
+    let init = grid[i][j] as u64;
     let space_right = j + num_adjacent < NUM_COLS;
     let space_left = j + 1 >= num_adjacent;
     let space_below = i + num_adjacent < NUM_ROWS;
     if space_right {
-	let mut horizontal = 1;
-    	for offset in 0..num_adjacent {
+	let mut horizontal = init;
+    	for offset in 1..num_adjacent {
     	    horizontal *= grid[i][j + offset] as u64;
     	}
 	if horizontal > *max {
@@ -59,9 +62,9 @@ fn update_max(grid: &U8Grid,
 	}
     }
     
-    let (mut vertical, mut major, mut minor) = (1, 1, 1);
+    let (mut vertical, mut major, mut minor) = (init, init, init);
     if space_below {
-    	for offset in 0..num_adjacent {
+    	for offset in 1..num_adjacent {
     	    vertical *= grid[i + offset][j] as u64;
 	    
     	    if space_right {
@@ -96,7 +99,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn zzz() {
+    fn test_solution() {
 	assert_eq!(p11(), 70600674);
     }
 

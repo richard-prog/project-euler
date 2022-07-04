@@ -4,9 +4,7 @@ pub fn p22() -> u64 {
     let mut names: Vec<String> = fs::read_to_string("p022_names.txt")
     	.unwrap()
     	.split(',')
-    	.map(|s| -> String {
-	    s.trim_matches('"').to_string()
-	})
+    	.map(|s| s.trim_matches('"').to_string())
 	.collect();
     names.sort();
     names.iter()

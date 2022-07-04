@@ -6,8 +6,10 @@ pub fn p23(primes: &Vec<u32>) -> u64 {
     let abundants = get_small_abundants(UPPER_LIMIT, primes);
     let mut nums = [true; UPPER_LIMIT as usize + 1];
 
+    let mut loop_counter = 0;
     for (i, m) in abundants.iter().enumerate() {
     	for n in abundants.iter().take(i+1) {
+	    loop_counter += 1;
     	    let index = m + n;
     	    if index < UPPER_LIMIT + 1 {
     		nums[index as usize] = false;
@@ -16,6 +18,8 @@ pub fn p23(primes: &Vec<u32>) -> u64 {
     	    }
     	}
     }
+    println!("{loop_counter} loops");
+
     nums.iter()
 	.enumerate()
 	.fold(0, |cur, (i, &num)| -> u64 {
@@ -28,7 +32,7 @@ pub fn p23(primes: &Vec<u32>) -> u64 {
 
 fn get_small_abundants(lim: u64, primes: &Vec<u32>) -> Vec<u64> {
     (1..=lim)
-	.filter(|n| -> bool {is_abundant(*n, primes)})
+	.filter(|n| is_abundant(*n, primes))
 	.collect::<Vec<u64>>()
 }
 

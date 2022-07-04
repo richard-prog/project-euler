@@ -11,7 +11,12 @@ pub fn count_divisors(num: u32, primes: &Vec<u32>) -> u32 {
 
 pub fn get_proper_divisors(num: u64, primes: &Vec<u32>) -> Vec<u32> {
     let factorization = primes::factor(num, primes);
-    let mut divisors: Vec<u32> = vec![1];
+    let mut capacity = 1;
+    for (_, exp) in &factorization {
+	capacity *= exp + 1;
+    }
+    let mut divisors = Vec::with_capacity(capacity as usize+ 1);
+    divisors.push(1);
     for (base, exp) in factorization {
 	extend_divisors(&mut divisors, base, exp);
     }
@@ -28,7 +33,6 @@ pub fn sum_proper_divisors(num: u64, primes: &Vec<u32>) -> u32 {
 
 fn extend_divisors(divisors: &mut Vec<u32>, base: u32, exponent: u32) {
     let n = divisors.len();
-    divisors.reserve(n * (exponent - 1) as usize);
     let mut multiple = base;
     for _ in 1..=exponent {
 	for j in 0..n {
@@ -36,6 +40,7 @@ fn extend_divisors(divisors: &mut Vec<u32>, base: u32, exponent: u32) {
 	}
 	multiple *= base;
     }
+    //Want sort instead of sort_unstable because we're adding a sorted slice
     divisors.sort_unstable();
 }
 
@@ -52,6 +57,7 @@ mod tests {
     fn test_extend_divisors() {
 	let mut divisors = vec![1, 3, 9];
 	extend_divisors(&mut divisors, 2, 3);
+	divisors.sort();
 	assert_eq!(divisors, vec![1, 2, 3, 4, 6, 8, 9, 12, 18, 24, 36, 72]);
     }
 
