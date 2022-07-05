@@ -12,9 +12,6 @@ pub fn p11() -> u64 {
 	return 0;
     }
     let grid = read_from_file();
-    for _ in 0..10_000 {
-	max_grid_product(&grid, 4);
-    }
     max_grid_product(&grid, 4)
 }
 
