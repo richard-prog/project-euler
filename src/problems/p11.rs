@@ -96,7 +96,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_solution() {
+    fn check_solution() {
 	assert_eq!(p11(), 70600674);
     }
 
