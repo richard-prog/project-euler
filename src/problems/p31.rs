@@ -16,12 +16,15 @@ fn count_coin_sums(total: u64, coins: &Vec<u64>) -> u64{
     let mut cache: Vec<Vec<u64>> = Vec::with_capacity(coins.len());
     
     let mut first_row = Vec::with_capacity((total+1) as usize);
-    for _ in 0..=total {
+    let ways_for_lowest_denomination = {
 	if total % coins[0] == 0 {
-	    first_row.push(1);
+	    1
 	} else {
-	    first_row.push(0);
+	    0
 	}
+    };
+    for _ in 0..=total {
+	first_row.push(ways_for_lowest_denomination);
     }
     cache.push(first_row);
     
