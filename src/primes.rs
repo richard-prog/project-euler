@@ -61,4 +61,10 @@ mod tests {
     fn test_generate_primes() {
 	assert_eq!(generate_primes(), get_primes());
     }
+
+    #[test]
+    fn test_factor() {
+	let prime_vec = get_primes();
+	assert_eq!(factor(12, &prime_vec), vec![(2, 2), (3, 1)]);
+    }
 }

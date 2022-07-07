@@ -100,6 +100,15 @@ mod tests {
 	assert_eq!(p11(), 70600674);
     }
 
+
+    #[test]
+    fn check_update_max() {
+	let grid = read_from_file();
+	let mut max = 0;
+	update_max(&grid, 4, (0, 0), &mut max);
+	assert_eq!(max, 1651104);
+    }
+
     #[test]
     fn check_zero_row() {
 	assert_eq!(zero_row(&[0; 20]), true);

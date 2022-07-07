@@ -15,6 +15,7 @@ pub fn p19() -> u64 {
 
 use Month::{January, February, March, April, May, June, July, August, September, October, November, December};
 
+#[derive(PartialEq, Eq, Debug)]
 struct Date {
     year: u16,
     month: Month,
@@ -27,7 +28,7 @@ impl Date {
     }
 }
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, PartialEq, Eq, Debug)]
 enum Month {
     January,
     February,
@@ -116,5 +117,38 @@ mod tests {
 	assert_eq!(is_leap_year(1996), true);
 	assert_eq!(is_leap_year(1900), false);
 	assert_eq!(is_leap_year(2000), true);
+    }
+
+    #[test]
+    fn test_advance() {
+	let mut count = 0;
+	let mut date = Date::from(2022, June, 3);
+	advance(&mut count, &mut date);
+	assert_eq!(count, 0);
+	assert_eq!(date, Date::from(2022, July, 5));
+	advance(&mut count, &mut date);
+	assert_eq!(count, 0);
+	assert_eq!(date, Date::from(2022, August, 1));
+    }
+
+    #[test]
+    fn test_advance_leap_year() {
+	let mut count = 0;
+	let mut date = Date::from(2019, November, 5);
+	advance(&mut count, &mut date);
+	assert_eq!(count, 0);
+	assert_eq!(date, Date::from(2019, December, 0));
+	advance(&mut count, &mut date);
+	assert_eq!(count, 1);
+	assert_eq!(date, Date::from(2020, January, 3));
+	advance(&mut count, &mut date);
+	assert_eq!(count, 1);
+	assert_eq!(date, Date::from(2020, February, 6));
+	advance(&mut count, &mut date);
+	assert_eq!(count, 1);
+	assert_eq!(date, Date::from(2020, March, 0));
+	advance(&mut count, &mut date);
+	assert_eq!(count, 2);
+	assert_eq!(date, Date::from(2020, April, 3));
     }
 }

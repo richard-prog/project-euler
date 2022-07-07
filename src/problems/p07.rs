@@ -1,5 +1,5 @@
-pub fn p07(primes: &[u32]) -> u64 {
-    primes[10_000] as u64
+pub fn p07(prime_vec: &[u32]) -> u64 {
+    prime_vec[10_000] as u64
 }
 
 #[cfg(test)]

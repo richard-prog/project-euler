@@ -51,6 +51,6 @@ mod tests {
     }
     #[test]
     fn test_greatest_product() {
-        assert_eq!(greatest_product(&vec![1, 2, 3, 4, 5], 3), 60);
+        assert_eq!(greatest_product(&vec![1, 2, 3, 4, 5, 2], 3), 60);
     }
 }

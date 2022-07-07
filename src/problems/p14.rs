@@ -41,4 +41,29 @@ mod tests {
     fn check_solution() {
 	assert_eq!(p14(), 837799);
     }
+
+    #[test]
+    fn test_next() {
+	//13 → 40 → 20 → 10 → 5 → 16 → 8 → 4 → 2 → 1
+	let mut term = 13;
+	term = next(term);
+	assert_eq!(term, 40);
+	term = next(term);
+	assert_eq!(term, 20);
+	term = next(term);
+	assert_eq!(term, 10);
+	term = next(term);
+	assert_eq!(term, 5);
+	term = next(term);
+	assert_eq!(term, 16);
+	term = next(term);
+	assert_eq!(term, 8);
+	term = next(term);
+	assert_eq!(term, 4);
+	term = next(term);
+	assert_eq!(term, 2);
+	term = next(term);
+	assert_eq!(term, 1);
+    }
+
 }
