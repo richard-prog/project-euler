@@ -1,94 +1,100 @@
 const NUM_ROWS: usize = 20;
 const NUM_COLS: usize = 20;
 
-type Row = [u8; NUM_COLS];
-type U8Grid = [Row; NUM_ROWS];
-
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 
 pub fn p11() -> u64 {
-    if NUM_ROWS == 0 || NUM_COLS == 0 {
-	return 0;
-    }
-    let grid = read_from_file();
-    max_grid_product(&grid, 4)
+    let grid = Grid::new("p11.txt", 4);
+    grid.into_iter().max().unwrap()
 }
 
-fn read_from_file() -> U8Grid {
-    let lines = BufReader::new(File::open("p11.txt").unwrap()).lines();
-    let mut grid: U8Grid = [[0; NUM_COLS]; NUM_ROWS];
-    for (i, line) in lines.enumerate() {
-	for (j, num) in line.unwrap().split(' ').enumerate(){
-	    grid[i][j] = num.parse::<u8>().unwrap();
-	}
-    }
-    grid
-}
-    
-fn max_grid_product(grid: &U8Grid, num_adjacent: usize) -> u64 {
-    if zero_grid(grid) {
-	return 0;
-    }
-    let mut cur_max = 1;
-    for i in 0..NUM_ROWS {
-	for j in 0..NUM_COLS {
-	    update_max(grid, num_adjacent, (i, j), &mut cur_max);
-	}
-    }
-    cur_max
+struct Grid {
+    grid: [[u8; NUM_COLS]; NUM_ROWS],
+    i: usize,
+    j: usize,
+    num_adjacent: usize
 }
 
-fn update_max(grid: &U8Grid,
-	      num_adjacent: usize,
-	      pivot: (usize, usize),
-	      max: &mut u64)
-{
-    let(i, j) = pivot;
-    let init = grid[i][j] as u64;
-    let space_right = j + num_adjacent < NUM_COLS;
-    let space_left = j + 1 >= num_adjacent;
-    let space_below = i + num_adjacent < NUM_ROWS;
-    if space_right {
-	let mut horizontal = init;
-    	for offset in 1..num_adjacent {
-    	    horizontal *= grid[i][j + offset] as u64;
-    	}
-	if horizontal > *max {
-	    *max = horizontal;
+impl Grid {
+    fn new(filename: &str, num_adjacent: usize) -> Grid {
+	let lines = BufReader::new(File::open(filename).unwrap()).lines();
+	let mut grid = [[0; NUM_COLS]; NUM_ROWS];
+	for (i, line) in lines.enumerate() {
+	    for (j, num) in line.unwrap().split(' ').enumerate(){
+		grid[i][j] = num.parse::<u8>().unwrap();
+	    }
 	}
+	let i = 0;
+	let j = 0;
+	Grid {grid, i, j, num_adjacent}
     }
-    
-    let (mut vertical, mut major, mut minor) = (init, init, init);
-    if space_below {
-    	for offset in 1..num_adjacent {
-    	    vertical *= grid[i + offset][j] as u64;
-	    
-    	    if space_right {
-    		major *= grid[i + offset][j + offset] as u64;
+
+    fn max_product(&self) -> u64 {
+	let(i, j) = (self.i, self.j);
+	let grid = self.grid;
+	let init = grid[i][j] as u64;
+	if init == 0 {
+	    return 0;
+	}
+	let mut max = 1;
+
+	let num_adjacent = self.num_adjacent;
+	let space_right = j + num_adjacent < NUM_COLS;
+	let space_left = j + 1 >= num_adjacent;
+	let space_below = i + num_adjacent < NUM_ROWS;
+	
+	if space_right {
+	    let mut horizontal = init;
+    	    for offset in 1..num_adjacent {
+    		horizontal *= grid[i][j + offset] as u64;
     	    }
-    	    if space_left {
-    		minor *= grid[i + offset][j - offset] as u64;
+	    if horizontal > max {
+		max = horizontal;
+	    }
+	}
+	
+	let (mut vertical, mut major, mut minor) = (init, init, init);
+	if space_below {
+    	    for offset in 1..num_adjacent {
+    		vertical *= grid[i + offset][j] as u64;
+		
+    		if space_right {
+    		    major *= grid[i + offset][j + offset] as u64;
+    		}
+    		if space_left {
+    		    minor *= grid[i + offset][j - offset] as u64;
+    		}
     	    }
-    	}
-    }
-    if vertical > *max {
-	*max = vertical;
-    }
-    if major > *max {
-	*max = major;
-    }
-    if minor > *max {
-	*max = minor;
+	}
+	if vertical > max {
+	    max = vertical;
+	}
+	if major > max {
+	    max = major;
+	}
+	if minor > max {
+	    max = minor;
+	}
+	max
     }
 }
 
-fn zero_grid(grid: &U8Grid) -> bool {
-    grid.iter().take(NUM_ROWS).all(zero_row)
-}
+impl Iterator for Grid {
+    type Item = u64;
 
-fn zero_row(row: &Row) -> bool {
-    row.iter().take(NUM_COLS).all(|x| *x == 0)
+    fn next(&mut self) -> Option<Self::Item> {
+	if self.i == NUM_ROWS {
+	    return None;
+	}
+	let product = self.max_product();
+	self.j += 1;
+	if self.j == NUM_COLS {
+	    self.j = 0;
+	    self.i += 1;
+	}
+	Some(product)
+    }
 }
 
 #[cfg(test)]
@@ -102,22 +108,8 @@ mod tests {
 
 
     #[test]
-    fn check_update_max() {
-	let grid = read_from_file();
-	let mut max = 0;
-	update_max(&grid, 4, (0, 0), &mut max);
-	assert_eq!(max, 1651104);
-    }
-
-    #[test]
-    fn check_zero_row() {
-	assert_eq!(zero_row(&[0; 20]), true);
-	assert_eq!(zero_row(&[1; 20]), false);
-    }
-
-    #[test]
-    fn check_zero_grid() {
-	assert_eq!(zero_grid(&[[0; 20]; 20]), true);
-	assert_eq!(zero_grid(&[[1; 20]; 20]), false);
+    fn test_max_product() {
+    	let grid = Grid::new("p11.txt", 4);
+    	assert_eq!(grid.max_product(), 1651104);
     }
 }
