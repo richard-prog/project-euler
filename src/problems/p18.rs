@@ -1,5 +1,5 @@
-use crate::read_from_file;
 use crate::maximum_path_sum;
+use crate::read_from_file;
 
 pub fn p18() -> u64 {
     let mut v = read_from_file::read_from_file_u32("p18.txt");
@@ -13,6 +13,6 @@ mod tests {
 
     #[test]
     fn check_solution() {
-	assert_eq!(p18(), 1074);
+        assert_eq!(p18(), 1074);
     }
 }

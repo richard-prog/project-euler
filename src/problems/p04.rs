@@ -20,9 +20,9 @@ fn is_palindrome(n: i64) -> bool {
     let digits = s.as_bytes();
     let num_digits = digits.len();
     for i in 0..num_digits {
-	if digits[i] != digits[(num_digits - 1) - i] {
-	    return false;
-	}
+        if digits[i] != digits[(num_digits - 1) - i] {
+            return false;
+        }
     }
     true
 }

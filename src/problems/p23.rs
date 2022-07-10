@@ -8,32 +8,30 @@ pub fn p23(primes: &Vec<u32>) -> u64 {
 
     let mut loop_counter = 0;
     for (i, m) in abundants.iter().enumerate() {
-    	for n in abundants.iter().take(i+1) {
-	    loop_counter += 1;
-    	    let index = m + n;
-    	    if index < UPPER_LIMIT + 1 {
-    		nums[index as usize] = false;
-    	    } else {
-    		break;
-    	    }
-    	}
+        for n in abundants.iter().take(i + 1) {
+            loop_counter += 1;
+            let index = m + n;
+            if index < UPPER_LIMIT + 1 {
+                nums[index as usize] = false;
+            } else {
+                break;
+            }
+        }
     }
     println!("{loop_counter} loops");
 
-    nums.iter()
-	.enumerate()
-	.fold(0, |cur, (i, &num)| -> u64 {
-	    if num {
-		return cur + i as u64;
-	    }
-	    cur
-	})
+    nums.iter().enumerate().fold(0, |cur, (i, &num)| -> u64 {
+        if num {
+            return cur + i as u64;
+        }
+        cur
+    })
 }
 
 fn get_small_abundants(lim: u64, primes: &Vec<u32>) -> Vec<u64> {
     (1..=lim)
-	.filter(|n| is_abundant(*n, primes))
-	.collect::<Vec<u64>>()
+        .filter(|n| is_abundant(*n, primes))
+        .collect::<Vec<u64>>()
 }
 
 fn is_abundant(num: u64, primes: &Vec<u32>) -> bool {
@@ -47,21 +45,21 @@ mod tests {
     #[ignore]
     #[test]
     fn check_solution() {
-	let primes = primes::get_primes();
-	assert_eq!(p23(&primes), 4179871);
+        let primes = primes::get_primes();
+        assert_eq!(p23(&primes), 4179871);
     }
-    
+
     #[test]
     fn test_is_abundant() {
-	let primes = primes::get_primes();
-	assert_eq!(is_abundant(12, &primes), true);
-	assert_eq!(is_abundant(6, &primes), false);
-	assert_eq!(is_abundant(10, &primes), false);
+        let primes = primes::get_primes();
+        assert_eq!(is_abundant(12, &primes), true);
+        assert_eq!(is_abundant(6, &primes), false);
+        assert_eq!(is_abundant(10, &primes), false);
     }
 
     #[test]
     fn test_get_small_abundants() {
-	let primes = primes::get_primes();
-	assert_eq!(get_small_abundants(13, &primes), vec![12]);
+        let primes = primes::get_primes();
+        assert_eq!(get_small_abundants(13, &primes), vec![12]);
     }
 }

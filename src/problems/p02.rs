@@ -3,15 +3,36 @@ pub fn p02() -> u64 {
 }
 
 fn sum_even_fibonacci_numbers_at_most(upper_limit: u64) -> u64 {
-    let (mut cur, mut next) = (0, 1);
-    let mut sum = 0;
-    while cur <= upper_limit {
-	if cur % 2 == 0 {
-	    sum += cur;
-	}
-	(cur, next) = (next, cur + next);
+    FibIterLimit::new(upper_limit).filter(|n| n % 2 == 0).sum()
+}
+
+struct FibIterLimit {
+    cur: u64,
+    next: u64,
+    upper_limit: u64,
+}
+
+impl FibIterLimit {
+    fn new(upper_limit: u64) -> Self {
+        FibIterLimit {
+            cur: 0,
+            next: 1,
+            upper_limit,
+        }
     }
-    sum
+}
+
+impl Iterator for FibIterLimit {
+    type Item = u64;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.next > self.upper_limit {
+            None
+        } else {
+            (self.cur, self.next) = (self.next, self.cur + self.next);
+            Some(self.cur)
+        }
+    }
 }
 
 #[cfg(test)]
@@ -20,9 +41,10 @@ mod tests {
 
     #[test]
     fn test_sum_even_fibonacci_numbers_at_most() {
-	assert_eq!(sum_even_fibonacci_numbers_at_most(89), 44);
-	assert_eq!(sum_even_fibonacci_numbers_at_most(34), 44);
-	assert_eq!(sum_even_fibonacci_numbers_at_most(33), 10);
+        assert_eq!(sum_even_fibonacci_numbers_at_most(2), 2);
+        assert_eq!(sum_even_fibonacci_numbers_at_most(89), 44);
+        assert_eq!(sum_even_fibonacci_numbers_at_most(34), 44);
+        assert_eq!(sum_even_fibonacci_numbers_at_most(33), 10);
     }
 
     #[test]

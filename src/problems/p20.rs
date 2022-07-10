@@ -14,11 +14,11 @@ mod tests {
 
     #[test]
     fn check_solution() {
-	assert_eq!(p20(), 648);
+        assert_eq!(p20(), 648);
     }
-    
+
     #[test]
     fn test_sum_factorial_digits() {
-	assert_eq!(sum_factorial_digits(10), 27);
+        assert_eq!(sum_factorial_digits(10), 27);
     }
 }

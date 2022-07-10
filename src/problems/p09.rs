@@ -10,10 +10,10 @@ fn pythagorean_triple_with_sum(sum: u64) -> Option<(u64, u64, u64)> {
         while a + b < sum {
             let c = sum - a - b;
             if a * a + b * b == c * c {
-		if a > b {
-		    (a, b) = (b, a);
-		}
-                return Some((a, b, c))
+                if a > b {
+                    (a, b) = (b, a);
+                }
+                return Some((a, b, c));
             }
             b += 1;
         }
@@ -32,7 +32,7 @@ mod tests {
 
     #[test]
     fn test_pythagorean_triple_with_sum() {
-	assert_eq!(pythagorean_triple_with_sum(12), Some((3, 4, 5)));
-	assert_eq!(pythagorean_triple_with_sum(3), None);
+        assert_eq!(pythagorean_triple_with_sum(12), Some((3, 4, 5)));
+        assert_eq!(pythagorean_triple_with_sum(3), None);
     }
 }

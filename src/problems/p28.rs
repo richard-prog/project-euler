@@ -1,5 +1,4 @@
-pub fn p28() -> u64
-{
+pub fn p28() -> u64 {
     sum_of_diagonals(1001)
 }
 
@@ -15,11 +14,11 @@ mod tests {
 
     #[test]
     fn test_sum_of_diagonals() {
-	assert_eq!(sum_of_diagonals(5), 101);
+        assert_eq!(sum_of_diagonals(5), 101);
     }
 
     #[test]
     fn check_solution() {
-	assert_eq!(p28(), 669171001);
+        assert_eq!(p28(), 669171001);
     }
 }

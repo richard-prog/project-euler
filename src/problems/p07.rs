@@ -8,7 +8,7 @@ mod tests {
 
     #[test]
     fn check_solution() {
-	use crate::primes;
+        use crate::primes;
         assert_eq!(p07(&primes::get_primes()), 104743);
     }
 }
