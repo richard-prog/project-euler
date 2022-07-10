@@ -3,33 +3,33 @@ pub fn p02() -> u64 {
 }
 
 fn sum_even_fibonacci_numbers_at_most(upper_limit: u64) -> u64 {
-    FibIterLimit::new(upper_limit).filter(|n| n % 2 == 0).sum()
+    EvenFibLimit::new(upper_limit).sum()
 }
 
-struct FibIterLimit {
+struct EvenFibLimit {
     cur: u64,
     next: u64,
-    upper_limit: u64,
+    limit: u64,
 }
 
-impl FibIterLimit {
-    fn new(upper_limit: u64) -> Self {
-        FibIterLimit {
+impl EvenFibLimit {
+    fn new(limit: u64) -> Self {
+        EvenFibLimit {
             cur: 0,
-            next: 1,
-            upper_limit,
+            next: 2,
+            limit,
         }
     }
 }
 
-impl Iterator for FibIterLimit {
+impl Iterator for EvenFibLimit {
     type Item = u64;
 
     fn next(&mut self) -> Option<Self::Item> {
-        if self.next > self.upper_limit {
+        if self.next > self.limit {
             None
         } else {
-            (self.cur, self.next) = (self.next, self.cur + self.next);
+            (self.cur, self.next) = (self.next, self.cur + 4 * self.next);
             Some(self.cur)
         }
     }
