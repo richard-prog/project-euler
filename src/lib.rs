@@ -49,7 +49,8 @@ fn run_problem(problem_number: u16, prime_vec: &Vec<u32>) -> Solution {
         29 => Solution::Unsigned(problems::p29(prime_vec)),
         30 => Solution::Unsigned(problems::p30()),
         31 => Solution::Unsigned(problems::p31()),
-        num => Solution::None{problem_number: num}
+	32 => Solution::Unsigned(problems::p32()),
+        problem_number => Solution::None{problem_number}
     }
 }
 
