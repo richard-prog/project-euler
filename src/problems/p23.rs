@@ -6,10 +6,8 @@ pub fn p23(primes: &Vec<u32>) -> u64 {
     let abundants = get_small_abundants(UPPER_LIMIT, primes);
     let mut nums = [true; UPPER_LIMIT as usize + 1];
 
-    let mut loop_counter = 0;
     for (i, m) in abundants.iter().enumerate() {
         for n in abundants.iter().take(i + 1) {
-            loop_counter += 1;
             let index = m + n;
             if index < UPPER_LIMIT + 1 {
                 nums[index as usize] = false;

@@ -1,4 +1,5 @@
-use std::fmt;
+use std::{env, fmt, fs};
+use std::error::Error;
 
 pub mod problems;
 
@@ -68,4 +69,32 @@ impl fmt::Display for Solution {
 	    Solution::None{problem_number} => write!(f, "Haven't solved problems number {}", problem_number),
 	}
     }
+}
+
+pub fn get_problems(mut args: env::Args) -> Result<Vec<u16>, Box<dyn Error>> {
+    let mut problems = Vec::new();
+    args.next();
+    let first_arg = args.next().ok_or_else(|| "no problems to run".to_string())?;
+    if first_arg == "all" {
+	let paths = fs::read_dir("src/problems/")?;
+	for path in paths {
+	    let filename = &path?
+		.path()
+		.to_str()
+		.ok_or_else(|| String::from("Filename with invalid unicode"))?
+		.to_string();
+	    if filename.as_bytes()[filename.len()-1] == b'~' {
+		continue;
+	    }
+	    let num = filename[14..16].parse::<u16>()?;
+	    problems.push(num);
+	}
+    } else {
+	problems.push(first_arg.parse::<u16>()?);
+	for arg in args {
+	    problems.push(arg.parse::<u16>()?);
+	}
+    }
+    problems.sort_unstable();
+    Ok(problems)
 }
