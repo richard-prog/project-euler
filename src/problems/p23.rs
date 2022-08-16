@@ -18,7 +18,6 @@ pub fn p23(primes: &Vec<u32>) -> u64 {
             }
         }
     }
-    println!("{loop_counter} loops");
 
     nums.iter().enumerate().fold(0, |cur, (i, &num)| -> u64 {
         if num {

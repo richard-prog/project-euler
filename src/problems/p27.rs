@@ -19,8 +19,6 @@ pub fn p27(primes: &Vec<u32>) -> i64 {
             }
         }
     }
-    println!("Polynomial: {:?}", max_coefficients);
-    println!("Count: {num_primes}");
     max_coefficients.1 * max_coefficients.2
 }
 
