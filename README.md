@@ -5,7 +5,7 @@ The ultimate goal is to solve the first 100, as Project Euler grants for "for th
 
 To run a problem (e.g., 25) with Cargo, run `cargo run --release 25`.
 
-To run all problems with Cargo, run `cargo run all`.
+To run all problems with Cargo, run `cargo run --release all`.
 
 The following principles inform my solutions:
 1. **Solve the most general possible problem possible**. For instance, problem 2 asks you to sum even Fibonacci numbers at most 4,000,000.
