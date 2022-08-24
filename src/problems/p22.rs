@@ -1,5 +1,5 @@
-use std::fs;
 use std::error::Error;
+use std::fs;
 
 pub fn p22() -> Result<u64, Box<dyn Error>> {
     let mut names: Vec<String> = fs::read_to_string("p022_names.txt")?

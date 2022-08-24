@@ -40,18 +40,17 @@ fn count_coin_sums(total: u64, coins: &Vec<u64>) -> Result<u64, Box<dyn Error>> 
                     0
                 }
             };
-            let total_without_coin = cache
-		.last()
-		.ok_or("The cache is somehow nonempty")?[i as usize];
+            let total_without_coin =
+                cache.last().ok_or("The cache is somehow nonempty")?[i as usize];
             new_row.push(total_with_coin + total_without_coin);
         }
         cache.push(new_row);
     }
     Ok(*cache
-       .last()
-       .ok_or("The cache unexpectedly has no lines")?
-       .last()
-       .ok_or("The last cache line unexpectedly has no items")?)
+        .last()
+        .ok_or("The cache unexpectedly has no lines")?
+        .last()
+        .ok_or("The last cache line unexpectedly has no items")?)
 }
 
 #[cfg(test)]

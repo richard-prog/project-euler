@@ -1,5 +1,5 @@
-use std::{env, fmt, fs};
 use std::error::Error;
+use std::{env, fmt, fs};
 
 pub mod problems;
 
@@ -50,8 +50,9 @@ fn run_problem(problem_number: u16, prime_vec: &Vec<u32>) -> Solution {
         29 => Solution::Unsigned(problems::p29(prime_vec)),
         30 => Solution::Unsigned(problems::p30()),
         31 => Solution::UnsignedResult(problems::p31()),
-	32 => Solution::Unsigned(problems::p32()),
-        problem_number => Solution::None{problem_number}
+        32 => Solution::Unsigned(problems::p32()),
+        33 => Solution::Unsigned(problems::p33()),
+        problem_number => Solution::None { problem_number },
     }
 }
 
@@ -59,46 +60,50 @@ enum Solution {
     Unsigned(u64),
     Signed(i64),
     UnsignedResult(Result<u64, Box<dyn Error>>),
-    None{problem_number: u16},
+    None { problem_number: u16 },
 }
 
 impl fmt::Display for Solution {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-	match self {
-	    Solution::Unsigned(x) => write!(f, "{}", x),
-	    Solution::Signed(x) => write!(f, "{}", x),
-	    Solution::UnsignedResult(x) => match x {
-		Ok(x) => write!(f, "{}", x),
-		Err(e) => write!(f, "Error: {}", e),
-	    }
-	    Solution::None{problem_number} => write!(f, "Haven't solved problems number {}", problem_number),
-	}
+        match self {
+            Solution::Unsigned(x) => write!(f, "{}", x),
+            Solution::Signed(x) => write!(f, "{}", x),
+            Solution::UnsignedResult(x) => match x {
+                Ok(x) => write!(f, "{}", x),
+                Err(e) => write!(f, "Error: {}", e),
+            },
+            Solution::None { problem_number } => {
+                write!(f, "Haven't solved problems number {}", problem_number)
+            }
+        }
     }
 }
 
 pub fn get_problems(mut args: env::Args) -> Result<Vec<u16>, Box<dyn Error>> {
     let mut problems = Vec::new();
     args.next();
-    let first_arg = args.next().ok_or_else(|| "no problems to run".to_string())?;
+    let first_arg = args
+        .next()
+        .ok_or_else(|| "no problems to run".to_string())?;
     if first_arg == "all" {
-	let paths = fs::read_dir("src/problems/")?;
-	for path in paths {
-	    let filename = &path?
-		.path()
-		.to_str()
-		.ok_or_else(|| String::from("Filename with invalid unicode"))?
-		.to_string();
-	    if filename.as_bytes()[filename.len()-1] == b'~' {
-		continue;
-	    }
-	    let num = filename[14..16].parse::<u16>()?;
-	    problems.push(num);
-	}
+        let paths = fs::read_dir("src/problems/")?;
+        for path in paths {
+            let filename = &path?
+                .path()
+                .to_str()
+                .ok_or_else(|| String::from("Filename with invalid unicode"))?
+                .to_string();
+            if filename.as_bytes()[filename.len() - 1] == b'~' {
+                continue;
+            }
+            let num = filename[14..16].parse::<u16>()?;
+            problems.push(num);
+        }
     } else {
-	problems.push(first_arg.parse::<u16>()?);
-	for arg in args {
-	    problems.push(arg.parse::<u16>()?);
-	}
+        problems.push(first_arg.parse::<u16>()?);
+        for arg in args {
+            problems.push(arg.parse::<u16>()?);
+        }
     }
     problems.sort_unstable();
     Ok(problems)

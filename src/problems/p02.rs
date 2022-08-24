@@ -41,7 +41,7 @@ mod tests {
 
     #[test]
     fn test_sum_even_fibonacci_numbers_at_most() {
-	assert_eq!(sum_even_fibonacci_numbers_at_most(0), 0);
+        assert_eq!(sum_even_fibonacci_numbers_at_most(0), 0);
         assert_eq!(sum_even_fibonacci_numbers_at_most(2), 2);
         assert_eq!(sum_even_fibonacci_numbers_at_most(89), 44);
         assert_eq!(sum_even_fibonacci_numbers_at_most(34), 44);

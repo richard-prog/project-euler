@@ -3,8 +3,8 @@ use std::error::Error;
 pub fn p09() -> Result<u64, Box<dyn Error>> {
     let sum = 1000;
     let (a, b, c) = match pythagorean_triple_with_sum(sum) {
-	Some((a, b, c)) => (a, b, c),
-	None => return Err(format!("No triple with sum {sum} found").into())
+        Some((a, b, c)) => (a, b, c),
+        None => return Err(format!("No triple with sum {sum} found").into()),
     };
     Ok(a * b * c)
 }

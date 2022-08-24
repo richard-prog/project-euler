@@ -24,6 +24,16 @@ pub fn digits(mut num: u64) -> Vec<u8> {
     result
 }
 
+pub fn gcd(mut a: u64, mut b: u64) -> u64 {
+    if a < b {
+        (a, b) = (b, a);
+    }
+    while b != 0 {
+        (a, b) = (b, a % b);
+    }
+    a
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -43,5 +53,12 @@ mod tests {
     fn test_digits() {
         assert_eq!(digits(0), vec![0]);
         assert_eq!(digits(10043), vec![1, 0, 0, 4, 3]);
+    }
+
+    #[test]
+    fn test_gcd() {
+        assert_eq!(gcd(15, 5), 5);
+        assert_eq!(gcd(15, 7), 1);
+        assert_eq!(gcd(15, 24), 3);
     }
 }

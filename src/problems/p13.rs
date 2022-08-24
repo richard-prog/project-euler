@@ -1,7 +1,7 @@
 use crate::symbolic_math;
+use std::error::Error;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
-use std::error::Error;
 
 const NUM_NUMBERS: usize = 100;
 const NUM_DIGITS: usize = 50;

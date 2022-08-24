@@ -1,13 +1,15 @@
 const NUM_ROWS: usize = 20;
 const NUM_COLS: usize = 20;
 
+use std::error::Error;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
-use std::error::Error;
 
 pub fn p11() -> Result<u64, Box<dyn Error>> {
     let grid = Grid::new("p11.txt", 4)?;
-    grid.into_iter().max().ok_or("For some reason, you are unable to find a max for the grid".into())
+    grid.into_iter()
+        .max()
+        .ok_or_else(|| "For some reason, you are unable to find a max for the grid".into())
 }
 
 struct Grid {
