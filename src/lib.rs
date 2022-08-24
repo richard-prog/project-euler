@@ -11,13 +11,13 @@ pub mod symbolic_math;
 pub mod utility;
 
 pub fn run_problems(problem_numbers: &[u16]) {
-    let prime_vec = primes::get_primes();
+    let (prime_sieve, prime_vec) = primes::generate_primes();
     for &num in problem_numbers {
-        println!("{}: {}", num, run_problem(num, &prime_vec));
+        println!("{}: {}", num, run_problem(num, &prime_sieve, &prime_vec));
     }
 }
 
-fn run_problem(problem_number: u16, prime_vec: &Vec<u32>) -> Solution {
+fn run_problem(problem_number: u16, prime_sieve: &[bool], prime_vec: &Vec<u32>) -> Solution {
     match problem_number {
         1 => Solution::Unsigned(problems::p01()),
         2 => Solution::Unsigned(problems::p02()),
@@ -53,6 +53,7 @@ fn run_problem(problem_number: u16, prime_vec: &Vec<u32>) -> Solution {
         32 => Solution::Unsigned(problems::p32()),
         33 => Solution::Unsigned(problems::p33()),
         34 => Solution::Unsigned(problems::p34()),
+        35 => Solution::Unsigned(problems::p35(prime_sieve, prime_vec)),
         problem_number => Solution::None { problem_number },
     }
 }
