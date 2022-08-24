@@ -1,4 +1,6 @@
-pub fn p24() -> u64 {
+use std::error::Error;
+
+pub fn p24() -> Result<u64, Box<dyn Error>> {
     let digits = vec![
         String::from("0"),
         String::from("1"),
@@ -14,7 +16,7 @@ pub fn p24() -> u64 {
     permutation_n(&digits, 1_000_000)
 }
 
-fn permutation_n(digits: &[String], n: usize) -> u64 {
+fn permutation_n(digits: &[String], n: usize) -> Result<u64, Box<dyn Error>> {
     let mut digits = digits.to_owned();
     let mut factorial: usize = (1..digits.len()).product();
     let mut target = n - 1;
@@ -27,7 +29,7 @@ fn permutation_n(digits: &[String], n: usize) -> u64 {
     while !digits.is_empty() {
         result_string.push_str(&digits.remove(0));
     }
-    result_string.parse().unwrap()
+    Ok(result_string.parse()?)
 }
 
 #[cfg(test)]
@@ -36,7 +38,7 @@ mod tests {
 
     #[test]
     fn check_solution() {
-        assert_eq!(p24(), 2783915460);
+        assert_eq!(p24().unwrap(), 2783915460);
     }
 
     #[test]
@@ -45,7 +47,7 @@ mod tests {
         let permutation_vec = vec!["012", "021", "102", "120", "201", "210"];
         for i in 0..permutation_vec.len() {
             assert_eq!(
-                permutation_n(&v, i + 1),
+                permutation_n(&v, i + 1).unwrap(),
                 permutation_vec[i].parse::<u64>().unwrap()
             );
         }

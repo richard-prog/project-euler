@@ -1,14 +1,16 @@
-pub fn p31() -> u64 {
+use std::error::Error;
+
+pub fn p31() -> Result<u64, Box<dyn Error>> {
     let coins = vec![1, 2, 5, 10, 20, 50, 100, 200];
     count_coin_sums(200, &coins)
 }
 
-fn count_coin_sums(total: u64, coins: &Vec<u64>) -> u64 {
+fn count_coin_sums(total: u64, coins: &Vec<u64>) -> Result<u64, Box<dyn Error>> {
     if coins.is_empty() {
-        return 0;
+        return Ok(0);
     }
     if total == 0 {
-        return 1;
+        return Ok(1);
     }
 
     let mut coins = coins.clone();
@@ -38,12 +40,18 @@ fn count_coin_sums(total: u64, coins: &Vec<u64>) -> u64 {
                     0
                 }
             };
-            let total_without_coin = cache.last().unwrap()[i as usize];
+            let total_without_coin = cache
+		.last()
+		.ok_or("The cache is somehow nonempty")?[i as usize];
             new_row.push(total_with_coin + total_without_coin);
         }
         cache.push(new_row);
     }
-    *cache.last().unwrap().last().unwrap()
+    Ok(*cache
+       .last()
+       .ok_or("The cache unexpectedly has no lines")?
+       .last()
+       .ok_or("The last cache line unexpectedly has no items")?)
 }
 
 #[cfg(test)]
@@ -52,15 +60,15 @@ mod tests {
 
     #[test]
     fn check_solution() {
-        assert_eq!(p31(), 73682);
+        assert_eq!(p31().unwrap(), 73682);
     }
 
     #[test]
     fn test_count_coin_sums() {
         let coins = vec![1, 5, 10];
-        assert_eq!(count_coin_sums(1, &coins), 1);
-        assert_eq!(count_coin_sums(5, &coins), 2);
-        assert_eq!(count_coin_sums(6, &coins), 2);
-        assert_eq!(count_coin_sums(12, &coins), 4);
+        assert_eq!(count_coin_sums(1, &coins).unwrap(), 1);
+        assert_eq!(count_coin_sums(5, &coins).unwrap(), 2);
+        assert_eq!(count_coin_sums(6, &coins).unwrap(), 2);
+        assert_eq!(count_coin_sums(12, &coins).unwrap(), 4);
     }
 }

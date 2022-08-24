@@ -1,6 +1,12 @@
-pub fn p09() -> u64 {
-    let (a, b, c) = pythagorean_triple_with_sum(1000).unwrap();
-    a * b * c
+use std::error::Error;
+
+pub fn p09() -> Result<u64, Box<dyn Error>> {
+    let sum = 1000;
+    let (a, b, c) = match pythagorean_triple_with_sum(sum) {
+	Some((a, b, c)) => (a, b, c),
+	None => return Err(format!("No triple with sum {sum} found").into())
+    };
+    Ok(a * b * c)
 }
 
 fn pythagorean_triple_with_sum(sum: u64) -> Option<(u64, u64, u64)> {
@@ -27,7 +33,7 @@ mod tests {
 
     #[test]
     fn check_solution() {
-        assert_eq!(p09(), 31875000);
+        assert_eq!(p09().unwrap(), 31875000);
     }
 
     #[test]

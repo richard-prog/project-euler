@@ -1,16 +1,17 @@
 use std::fs;
+use std::error::Error;
 
-pub fn p22() -> u64 {
-    let mut names: Vec<String> = fs::read_to_string("p022_names.txt")
-        .unwrap()
+pub fn p22() -> Result<u64, Box<dyn Error>> {
+    let mut names: Vec<String> = fs::read_to_string("p022_names.txt")?
         .split(',')
         .map(|s| s.trim_matches('"').to_string())
         .collect();
     names.sort();
-    names
+    let total_name_score = names
         .iter()
         .enumerate()
-        .fold(0, |cur, (i, val)| cur + (i as u64 + 1) * name_score(val))
+        .fold(0, |cur, (i, val)| cur + (i as u64 + 1) * name_score(val));
+    Ok(total_name_score)
 }
 
 fn name_score(name: &str) -> u64 {
@@ -25,7 +26,7 @@ mod tests {
 
     #[test]
     fn check_solution() {
-        assert_eq!(p22(), 871198282);
+        assert_eq!(p22().unwrap(), 871198282);
     }
 
     #[test]

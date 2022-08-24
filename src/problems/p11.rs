@@ -3,10 +3,11 @@ const NUM_COLS: usize = 20;
 
 use std::fs::File;
 use std::io::{BufRead, BufReader};
+use std::error::Error;
 
-pub fn p11() -> u64 {
-    let grid = Grid::new("p11.txt", 4);
-    grid.into_iter().max().unwrap()
+pub fn p11() -> Result<u64, Box<dyn Error>> {
+    let grid = Grid::new("p11.txt", 4)?;
+    grid.into_iter().max().ok_or("For some reason, you are unable to find a max for the grid".into())
 }
 
 struct Grid {
@@ -17,22 +18,22 @@ struct Grid {
 }
 
 impl Grid {
-    fn new(filename: &str, num_adjacent: usize) -> Grid {
-        let lines = BufReader::new(File::open(filename).unwrap()).lines();
+    fn new(filename: &str, num_adjacent: usize) -> Result<Grid, Box<dyn Error>> {
+        let lines = BufReader::new(File::open(filename)?).lines();
         let mut grid = [[0; NUM_COLS]; NUM_ROWS];
         for (i, line) in lines.enumerate() {
-            for (j, num) in line.unwrap().split(' ').enumerate() {
-                grid[i][j] = num.parse::<u8>().unwrap();
+            for (j, num) in line?.split(' ').enumerate() {
+                grid[i][j] = num.parse::<u8>()?;
             }
         }
         let i = 0;
         let j = 0;
-        Grid {
+        Ok(Grid {
             grid,
             i,
             j,
             num_adjacent,
-        }
+        })
     }
 
     fn max_product(&self) -> u64 {
@@ -108,18 +109,18 @@ mod tests {
 
     #[test]
     fn check_solution() {
-        assert_eq!(p11(), 70600674);
+        assert_eq!(p11().unwrap(), 70600674);
     }
 
     #[test]
     fn test_max_product() {
-        let grid = Grid::new("p11.txt", 4);
+        let grid = Grid::new("p11.txt", 4).unwrap();
         assert_eq!(grid.max_product(), 1651104);
     }
 
     #[test]
     fn test_with_zero_grid() {
-        let grid = Grid::new("p11-test-zero-grid.txt", 2);
+        let grid = Grid::new("p11-test-zero-grid.txt", 2).unwrap();
         assert_eq!(grid.into_iter().max().unwrap(), 0);
     }
 }
