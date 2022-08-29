@@ -2,14 +2,11 @@ use std::error::Error;
 
 pub fn p09() -> Result<u64, Box<dyn Error>> {
     let sum = 1000;
-    let (a, b, c) = match pythagorean_triple_with_sum(sum) {
-        Some((a, b, c)) => (a, b, c),
-        None => return Err(format!("No triple with sum {sum} found").into()),
-    };
+    let (a, b, c) = pythagorean_triple_with_sum(sum)?;
     Ok(a * b * c)
 }
 
-fn pythagorean_triple_with_sum(sum: u64) -> Option<(u64, u64, u64)> {
+fn pythagorean_triple_with_sum(sum: u64) -> Result<(u64, u64, u64), Box<dyn Error>> {
     let mut a = sum / 3;
     while a > 0 {
         let mut b = 1;
@@ -19,13 +16,13 @@ fn pythagorean_triple_with_sum(sum: u64) -> Option<(u64, u64, u64)> {
                 if a > b {
                     (a, b) = (b, a);
                 }
-                return Some((a, b, c));
+                return Ok((a, b, c));
             }
             b += 1;
         }
         a -= 1;
     }
-    None
+    Err(format!("No triple is sum {sum} found").into())
 }
 #[cfg(test)]
 mod tests {
@@ -38,7 +35,7 @@ mod tests {
 
     #[test]
     fn test_pythagorean_triple_with_sum() {
-        assert_eq!(pythagorean_triple_with_sum(12), Some((3, 4, 5)));
-        assert_eq!(pythagorean_triple_with_sum(3), None);
+        assert_eq!(pythagorean_triple_with_sum(12).unwrap(), (3, 4, 5));
+	assert!(pythagorean_triple_with_sum(3).is_err());
     }
 }

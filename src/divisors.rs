@@ -72,8 +72,8 @@ mod tests {
             vec![1, 2, 4, 71, 142]
         );
         assert_eq!(
-            get_proper_divisors(1, &primes::get_primes()),
-            Vec::<u32>::new()
+            get_proper_divisors(1, &primes::get_primes()).len(),
+	    0
         );
     }
 
