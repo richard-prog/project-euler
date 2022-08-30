@@ -41,9 +41,9 @@ pub fn get_primes() -> Vec<u32> {
     let mut i = 0;
     let l = bytes.len();
     while i < l {
-	buffer[..4].copy_from_slice(&bytes[i..(i+4)]);
-	prime_vec.push(u32::from_le_bytes(buffer));
-	i += 4;
+        buffer[..4].copy_from_slice(&bytes[i..(i + 4)]);
+        prime_vec.push(u32::from_le_bytes(buffer));
+        i += 4;
     }
     prime_vec
 }
@@ -51,7 +51,6 @@ pub fn get_primes() -> Vec<u32> {
 pub fn factor(mut num: u64, primes: &Vec<u32>) -> Vec<(u32, u32)> {
     let mut ret = Vec::new();
     for &p in primes {
-        // println!("{p}");
         if num % p as u64 == 0 {
             let mut exp = 0;
             while num % p as u64 == 0 {

@@ -71,10 +71,7 @@ mod tests {
             get_proper_divisors(284, &primes::get_primes()),
             vec![1, 2, 4, 71, 142]
         );
-        assert_eq!(
-            get_proper_divisors(1, &primes::get_primes()).len(),
-	    0
-        );
+        assert_eq!(get_proper_divisors(1, &primes::get_primes()).len(), 0);
     }
 
     #[test]

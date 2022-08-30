@@ -36,6 +36,6 @@ mod tests {
     #[test]
     fn test_pythagorean_triple_with_sum() {
         assert_eq!(pythagorean_triple_with_sum(12).unwrap(), (3, 4, 5));
-	assert!(pythagorean_triple_with_sum(3).is_err());
+        assert!(pythagorean_triple_with_sum(3).is_err());
     }
 }
