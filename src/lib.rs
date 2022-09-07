@@ -12,6 +12,7 @@ pub mod utility;
 
 pub fn run_problems(problem_numbers: &[u16]) {
     let (prime_sieve, prime_vec) = primes::generate_primes();
+    println!("{:?}", prime_vec);
     for &num in problem_numbers {
         println!("{}: {}", num, run_problem(num, &prime_sieve, &prime_vec));
     }

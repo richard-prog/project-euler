@@ -96,4 +96,10 @@ mod tests {
         }
         assert_eq!(count, 19);
     }
+
+    #[test]
+    #[should_panic]
+    fn test_num_to_words_panics_for_large_values() {
+        num_to_words(1_001);
+    }
 }

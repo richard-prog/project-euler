@@ -22,7 +22,7 @@ fn count_coin_sums(total: u64, coins: &Vec<u64>) -> Result<u64, Box<dyn Error>> 
         if total % coins[0] == 0 {
             1
         } else {
-            0
+            return Err("Our algorithm does not currently handle coprime lowest denomination and current total. We could, but that would require fixing things.".into());
         }
     };
     for _ in 0..=total {
@@ -63,8 +63,31 @@ mod tests {
     }
 
     #[test]
+    fn test_doubled_coins() {
+        let mut coins = vec![1, 2, 5, 10, 20, 50, 100, 200];
+        for coin in &mut coins {
+            *coin *= 2;
+        }
+        let num = count_coin_sums(400, &coins);
+        assert_eq!(num.unwrap(), 73682);
+    }
+
+    #[test]
+    fn test_empty_coins() {
+        let coins = vec![];
+        assert_eq!(count_coin_sums(1, &coins).unwrap(), 0);
+    }
+
+    #[test]
+    fn test_coprime_lowest_denomination() {
+        let coins = vec![2, 5];
+        assert!(count_coin_sums(9, &coins).is_err());
+    }
+
+    #[test]
     fn test_count_coin_sums() {
         let coins = vec![1, 5, 10];
+        assert_eq!(count_coin_sums(0, &coins).unwrap(), 1);
         assert_eq!(count_coin_sums(1, &coins).unwrap(), 1);
         assert_eq!(count_coin_sums(5, &coins).unwrap(), 2);
         assert_eq!(count_coin_sums(6, &coins).unwrap(), 2);

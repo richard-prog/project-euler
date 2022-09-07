@@ -8,18 +8,10 @@ pub fn p33() -> u64 {
     for a in 1..=9 {
         for b in 1..=9 {
             for c in 1..=9 {
-                let left = Fraction::new(a * 10 + b, a * 10 + c);
                 let major = Fraction::new(a * 10 + b, c * 10 + a);
-                let right = Fraction::new(a * 10 + b, c * 10 + b);
                 let minor = Fraction::new(a * 10 + b, b * 10 + c);
-                if left == Fraction::new(b, c) && left < one {
-                    fractions.push(left);
-                }
                 if major == Fraction::new(b, c) && major < one {
                     fractions.push(major);
-                }
-                if right == Fraction::new(a, c) && right < one {
-                    fractions.push(right);
                 }
                 if minor == Fraction::new(a, c) && minor < one {
                     fractions.push(minor);

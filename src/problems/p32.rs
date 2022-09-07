@@ -40,6 +40,11 @@ mod tests {
     use super::*;
 
     #[test]
+    fn check_solution() {
+        assert_eq!(p32(), 45228);
+    }
+
+    #[test]
     fn test_is_pandigital_triple() {
         assert_eq!(is_pandigital_triple((12, 345, 6789)), true);
         assert_eq!(is_pandigital_triple((39, 186, 7254)), true);
