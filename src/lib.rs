@@ -12,7 +12,6 @@ pub mod utility;
 
 pub fn run_problems(problem_numbers: &[u16]) {
     let (prime_sieve, prime_vec) = primes::generate_primes();
-    println!("{:?}", prime_vec);
     for &num in problem_numbers {
         println!("{}: {}", num, run_problem(num, &prime_sieve, &prime_vec));
     }
@@ -55,6 +54,7 @@ fn run_problem(problem_number: u16, prime_sieve: &[bool], prime_vec: &Vec<u32>) 
         33 => Solution::Unsigned(problems::p33()),
         34 => Solution::Unsigned(problems::p34()),
         35 => Solution::Unsigned(problems::p35(prime_sieve, prime_vec)),
+        36 => Solution::Unsigned(problems::p36()),
         problem_number => Solution::None { problem_number },
     }
 }
