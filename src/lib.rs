@@ -55,6 +55,7 @@ fn run_problem(problem_number: u16, prime_sieve: &[bool], prime_vec: &Vec<u32>) 
         34 => Solution::Unsigned(problems::p34()),
         35 => Solution::Unsigned(problems::p35(prime_sieve, prime_vec)),
         36 => Solution::Unsigned(problems::p36()),
+        37 => Solution::Unsigned(problems::p37(prime_sieve, prime_vec)),
         problem_number => Solution::None { problem_number },
     }
 }

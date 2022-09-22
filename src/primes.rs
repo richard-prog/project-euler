@@ -2,6 +2,8 @@ const MAX: usize = 2_000_000;
 
 pub fn generate_primes() -> (Vec<bool>, Vec<u32>) {
     let mut sieve = [true; MAX + 1];
+    sieve[0] = false;
+    sieve[1] = false;
     let max_factor = ((MAX as f64).sqrt()) as usize;
     for i in 2..=max_factor {
         if !sieve[i] {
